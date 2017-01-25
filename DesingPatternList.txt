@@ -1,0 +1,10 @@
+command
+visitor
+proxy
+adapter
+strategy
+singleton
+factory
+abstract factory
+prototype
+template
