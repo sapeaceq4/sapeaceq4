@@ -71,7 +71,7 @@ class A implements Serializable {
 	}
 }
 
-class B extends A {
+class B extends A implements Cloneable {
 	static int h = 10;
 	private int jko = 9;
 
@@ -87,6 +87,8 @@ class B extends A {
 
 	@Override
 	public String toString() {
+		
+		
 		return super.toString() + "B [jko=" + jko + "]";
 	}
 
@@ -131,7 +133,9 @@ interface D {
 @Target({ ElementType.TYPE })
 @interface AuthorInfo {
 	public String authorName();
+
 	public String emailId();
+
 	public String empType() default "permament";
 }
 
