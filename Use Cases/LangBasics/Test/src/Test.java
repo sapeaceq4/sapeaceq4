@@ -47,6 +47,13 @@ public class Test {
 	}
 }
 
+@FunctionalInterface
+interface ask {
+	void ko();
+	@Override
+	String toString();
+}
+
 class A implements Serializable {
 	static int h = 9;
 
@@ -87,8 +94,7 @@ class B extends A implements Cloneable {
 
 	@Override
 	public String toString() {
-		
-		
+
 		return super.toString() + "B [jko=" + jko + "]";
 	}
 
