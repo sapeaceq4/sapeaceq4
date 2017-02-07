@@ -1,5 +1,6 @@
 package App;
 
+//@author akash
 public class kthLargest {
 
 	private static int QuickSortPartition(int[] A, int p, int r, int pivotIndex) {
