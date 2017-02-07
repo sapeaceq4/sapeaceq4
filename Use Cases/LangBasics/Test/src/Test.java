@@ -9,7 +9,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 public class Test {
@@ -46,6 +48,8 @@ public class Test {
 		Stream<Float> lis = li.stream();
 		System.out.println(lis.map(e -> e * format).toString());
 		// format =3;
+
+		Map<String, String> hp = new HashMap<String, String>();
 
 		for (int ki = 0; ki < li.size(); ki++) {
 			System.out.println(li.get(ki));
