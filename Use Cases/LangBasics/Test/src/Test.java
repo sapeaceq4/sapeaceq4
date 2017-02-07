@@ -10,8 +10,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class Test {
+
 	public static void main(String[] args) throws IOException,
 			ClassNotFoundException {
 		final int i = 9;
@@ -32,24 +34,29 @@ public class Test {
 		System.out.println(ino.readObject());
 		ino.close();
 
-		List li = new ArrayList<Integer>();
+		List<Float> li = new ArrayList<Float>();
 
-		li.add(2);
-		li.add(2.4);
-		li.add(4.5);
-		li.add(5.6);
-		li.add("akash");
+		li.add(2f);
+		li.add(2.4f);
+		li.add(4.5f);
+		li.add(5.6f);
+		// li.add("akash");
+
+		int format = 0;
+		Stream<Float> lis = li.stream();
+		System.out.println(lis.map(e -> e * format).toString());
+		// format =3;
 
 		for (int ki = 0; ki < li.size(); ki++) {
 			System.out.println(li.get(ki));
 		}
-
 	}
 }
 
 @FunctionalInterface
 interface ask {
 	void ko();
+
 	@Override
 	String toString();
 }
@@ -68,7 +75,7 @@ class A implements Serializable {
 		System.out.println(i);
 	}
 
-	Number pri() {
+	synchronized Number pri() {
 		return 1;
 	}
 
