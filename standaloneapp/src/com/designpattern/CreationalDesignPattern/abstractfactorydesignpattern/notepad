@@ -1,0 +1,6 @@
+In Abstract Factory pattern, we get rid of if-else block and have a factory class for each sub-class 
+and then an Abstract Factory class that will return the sub-class based on the input factory class
+
+javax.xml.parsers.DocumentBuilderFactory#newInstance()
+javax.xml.transform.TransformerFactory#newInstance()
+javax.xml.xpath.XPathFactory#newInstance()

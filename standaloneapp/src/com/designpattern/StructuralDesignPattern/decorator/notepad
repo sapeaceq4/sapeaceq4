@@ -1,0 +1,16 @@
+****Read
+If a abstract class implements the interface the there are no need to override the abstract method in abstract class.
+Example class is available in this tutorial that is "com.designpattern.decorator.ChannelDecorator.java"
+
+---
+Open for extension and closed for modification-
+
+----
+Java example for the Decorator is File IO.
+
+------
+Structural Design Patterns
+
+Ability to select algorithms dynamically
+define multiple algorithms 
+Algorithms Encapsulation

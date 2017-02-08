@@ -1,0 +1,6 @@
+Strategy design pattern example - behavioral design pattern :
+Collections.sort() method that takes Comparator parameter. 
+Based on the different implementations of Comparator interfaces, the Objects are getting sorted in different ways.
+
+Strategy pattern is used when we have multiple algorithm for a specific task 
+and client decides the actual implementation to be used at runtime.

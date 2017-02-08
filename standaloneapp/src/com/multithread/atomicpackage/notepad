@@ -1,0 +1,7 @@
+java.util.concurrent.atomic;
+The classes in this package supports lock-free and thread-free programming on single variables.
+classes:-
+AtomicInteger
+AtomicBoolean
+AtomicLong
+AtomicIntegerArray

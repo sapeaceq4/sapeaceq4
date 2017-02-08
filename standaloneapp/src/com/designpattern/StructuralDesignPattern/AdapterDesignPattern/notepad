@@ -1,0 +1,3 @@
+java.util.Arrays#asList()
+java.io.InputStreamReader(InputStream) (returns a Reader)
+java.io.OutputStreamWriter(OutputStream) (returns a Writer)

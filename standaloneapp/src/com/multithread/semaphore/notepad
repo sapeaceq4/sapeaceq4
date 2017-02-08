@@ -1,0 +1,5 @@
+We all know what the database is,and one database can support multiple application.
+but during peak hours and application may utilize most of the database connections.
+and this mainly to failure to other application since database connection will not be available for them and there process will 
+not complete and in order to avoid such situation we should try to fix the database connection.
+we can achive this using semaphore.

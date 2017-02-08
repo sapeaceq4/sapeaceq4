@@ -1,0 +1,9 @@
+Depending upon how objects are garbage collected, references to those objects in java are grouped into 4 types. They are,
+
+1) Strong References
+
+2) Soft References
+
+3) Weak References
+
+4) Phantom References

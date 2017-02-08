@@ -1,0 +1,10 @@
+Spring Bean scopes.
+
+Spring’s concept of a singleton bean differs from the Singleton pattern as defined in the Gang of Four (GoF) patterns book. 
+The GoF Singleton hard-codes the scope of an object such that one and only one instance of a particular class is created per ClassLoader. 
+The scope of the Spring singleton is best described as per container and per bean. 
+This means that if you define one bean for a particular class in a single Spring container, 
+then the Spring container creates one and only one instance of the class defined by that bean definition. 
+The singleton scope is the default scope in Spring. To define a bean as a singleton in XML, you would write, for example:
+
+As a rule, use the prototype scope for all stateful beans and the singleton scope for stateless beans.

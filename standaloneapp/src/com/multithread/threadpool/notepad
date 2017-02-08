@@ -1,0 +1,9 @@
+ThreadPool - 
+Thread needs to be create in advance in thread poll to save time and memory.
+Thread pool is a collection of threads which you keep alive and use or reuse to process incoming task.
+when a new task arrives and a typical example would be a request to an HTTP server then u tried to find thread from the collection
+which is idle and handle the task to it.
+if no such threads exist u either wait for a become available or add a new thread to the pool
+and usually there is an upper limit to the count though.
+after the thread has finish the processing the task it is not terminated but only mark the idle 
+and ready to be used for any other task.
