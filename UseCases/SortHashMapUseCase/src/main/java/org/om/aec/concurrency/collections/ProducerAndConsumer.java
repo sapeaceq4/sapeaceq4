@@ -8,8 +8,8 @@ public class ProducerAndConsumer
 	public static void main(String[] args) 
 	{
 		BlockingQueue<Integer> queue = new ArrayBlockingQueue<Integer>(1);
-		Thread t1 = new Thread(new Producer(queue), "ProducerThread");
-		Thread t2 = new Thread(new Consumer(queue), "ConsumerThread");
+		Thread t1 = new Thread(new Producer(queue), "Producer");
+		Thread t2 = new Thread(new Consumer(queue), "Consumer");
 		t1.start();
 		t2.start();
 	}
@@ -33,7 +33,7 @@ class Producer implements Runnable
 			try 
 			{
 				Thread.sleep(100);
-				System.out.println("Produce-"+ ++i);
+				System.out.println(Thread.currentThread().getName()+"-"+ ++i);
 				queue.put(i);
 			} 
 			catch (InterruptedException e) 
@@ -60,7 +60,7 @@ class Consumer implements Runnable
 		{
 			try 
 			{
-				System.out.println("Consumed-"+ queue.take());
+				System.out.println(Thread.currentThread().getName()+"-"+ queue.take());
 			} 
 			catch (InterruptedException e) 
 			{
