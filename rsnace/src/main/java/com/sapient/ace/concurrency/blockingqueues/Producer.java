@@ -1,4 +1,4 @@
-package com.sapient.ace.concurreny.blockingqueues;
+package com.sapient.ace.concurrency.blockingqueues;
 
 import java.util.Date;
 import java.util.concurrent.BlockingQueue;

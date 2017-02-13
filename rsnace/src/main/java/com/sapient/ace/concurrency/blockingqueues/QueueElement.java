@@ -1,4 +1,4 @@
-package com.sapient.ace.concurreny.blockingqueues;
+package com.sapient.ace.concurrency.blockingqueues;
 
 /**
  * Created by Ravdeep Singh on 2/10/2017.

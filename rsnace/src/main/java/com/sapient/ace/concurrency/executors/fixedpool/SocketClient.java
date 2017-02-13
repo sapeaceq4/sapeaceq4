@@ -1,4 +1,4 @@
-package com.sapient.ace.concurreny.executors.fixedpool;
+package com.sapient.ace.concurrency.executors.fixedpool;
 
 /**
  * Created by Ravdeep Singh on 12-02-2017.
