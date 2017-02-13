@@ -19,6 +19,7 @@ public class MultiArraySorter {
         ArraySorter sorter3 = new ArraySorter(a3, countDownLatch);
         ArraySorter sorter4 = new ArraySorter(a4, countDownLatch);
         ArraySorter sorter5 = new ArraySorter(a5, countDownLatch);
+
         Thread t1 = new Thread(sorter1, "Thread1");
         Thread t2 = new Thread(sorter2, "Thread2");
         Thread t3 = new Thread(sorter3, "Thread3");
@@ -40,5 +41,6 @@ public class MultiArraySorter {
         System.out.println(Arrays.toString(a4));
         System.out.println(Arrays.toString(a5));
         //Now Merge
+
     }
 }
