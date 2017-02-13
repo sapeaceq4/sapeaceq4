@@ -11,4 +11,15 @@ public class AppUtils
 			System.out.println(value);
 		}
 	}
+	
+	public static void asleep(long millis)
+	{
+		try 
+		{
+			Thread.sleep(millis);
+		} catch (InterruptedException e) 
+		{
+			e.printStackTrace();
+		}
+	}
 }
