@@ -53,13 +53,30 @@ public class ReadWriteCache implements ICache {
 	}
 	
 	private Object removeOutdadedObjectFromCache(){
+		
+		Cacheable objectToRemoveValue=null;
+		Object objToRemoveKey=null;
+		
 		for(Object key :cacheHashMap.keySet()){
 			Cacheable value = (Cacheable)cacheHashMap.get(key);
-			if(value.isExpired()){
-				
+			if(objectToRemoveValue == null){
+				objectToRemoveValue = (CachedObject) value;
+				objToRemoveKey = key;
+			}
+			else{
+				if(objectToRemoveValue.getDateOfexpiration().after(value.getDateOfexpiration())){
+					objectToRemoveValue=value;
+					objToRemoveKey = key;
+				}
 			}
 		}
-		return null;
+		if(currentCacheSize.get() >= getCacheMaxSize()){
+			synchronized(cacheHashMap){
+				cacheHashMap.remove(objToRemoveKey);
+			}
+			System.out.println("Removed last used object from cache :"+objectToRemoveValue.getIdentifier());
+		}
+		return objToRemoveKey;
 	}
 
 }
