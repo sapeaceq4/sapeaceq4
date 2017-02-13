@@ -1,5 +1,6 @@
 package org.om.aec;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.ServerSocket;
@@ -21,11 +22,9 @@ public class Server
 		try 
 		{
 			InputStream inputStream = socket.getInputStream();
-			byte[] data = new byte[100];
-			inputStream.read(data);
-			for (byte b : data) {
-				System.out.println(b);
-			}
+			DataInputStream dis=new DataInputStream(inputStream);  
+			String  str=(String)dis.readUTF();  
+			System.out.println(Thread.currentThread().getName()+" ,message= "+str);  
 		} 
 		catch (IOException e)
 		{
