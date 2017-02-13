@@ -12,7 +12,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
- * Sort a 400 MB file on a 40MB RAM
+ * Sort a large file
  * 
  */
 public class FileSort {
