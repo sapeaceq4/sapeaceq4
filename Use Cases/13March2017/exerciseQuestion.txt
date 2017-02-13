@@ -1,0 +1,5 @@
+1>sort a large file that cannot be loaded in main mem at one time
+2>cache
+-time to live
+-stale period
+-number of entries
