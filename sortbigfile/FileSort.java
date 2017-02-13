@@ -3,65 +3,65 @@ package com.prac.sortbigfile;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
 import java.util.Date;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
- * Sort a large file using FileChannel
+ * Sort a 400 MB file on a 40MB RAM
  * 
  */
 public class FileSort {
 
-  private static final int DEFAULT_BUFFER_SIZE = 1024 * 8;
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) throws Exception {
+  public static void main(String[] args) throws Exception {
 
 		long t1 = new Date().getTime();
 		int i = 0;		
-		FileChannel source = new FileInputStream(new File("D:\\ACE\\LINEITEM.xml")).getChannel();
-		ByteBuffer buf = ByteBuffer.allocateDirect(DEFAULT_BUFFER_SIZE);
-
-		int j = 0;
-		FileChannel destination = new FileOutputStream(new File("D:\\ACE\\temp-" +i+".txt")).getChannel();
-		while((source.read(buf)) != -1) {
-			buf.flip();
-			destination.write(buf);
-			if( j == 5000 ) {
+		Set<String> set = new TreeSet<String>();
+		BufferedReader br = new BufferedReader(new FileReader(new File("D:/ACE/Day1-3.txt")));
+		String s = br.readLine();		
+		while( s != null ) {
+			set.add(s);			
+			
+			if(set.size() == 60000) {
+				FileWriter fw = new FileWriter(new File("D:/ACE/temp-" +i+".txt"));
+				for (String x: set) {
+					fw.write(x);
+					fw.write("\n");
+				}
+				fw.close();
 				i++;
-				destination.close();
-				destination = new FileOutputStream(new File("D:\\ACE\\temp-" +i+".txt")).getChannel();
-				j=0;
-			} else {
-				j++;
+				set = new TreeSet<String>();
 			}
-			buf.clear();			
+			s = br.readLine();
 		}
 
-		source.close();
+		br.close();
+		br = null;
+		
+		FileWriter fw = new FileWriter(new File("D:/ACE/temp-" +i+".txt"));
+		for (String x: set) {
+			fw.write(x);
+			fw.write('\n');
+		}
+		fw.close();
 		
 		Map<String, Integer> map = new TreeMap<String, Integer>();
-
+		
 		BufferedReader[] brArr = new BufferedReader[i+1];
-		for(j=0; j<=i; j++) {
-			brArr[j] = new BufferedReader(new FileReader(new File("D:\\ACE\\temp-" +j+".txt")));			
+		for(int j=0; j<=i; j++) {
+			brArr[j] = new BufferedReader(new FileReader(new File("D:/ACE/temp-" +j+".txt")));			
 			map.put(brArr[j].readLine(), j);
 		}
+		
 
-
-		BufferedWriter bw = new BufferedWriter(new FileWriter(new File("D:\\ACE\\output.txt")));		
-
-		String s = null;
-		String endofline = "\n";
+		BufferedWriter bw = new BufferedWriter(new FileWriter(new File("D:/ACE/output.txt")));		
+		
+        String endofline = "\n";
 		while(!map.isEmpty()) {
 			s = map.keySet().iterator().next();
 			i = map.get(s);
@@ -75,14 +75,13 @@ public class FileSort {
 		}
 		bw.close();
 
-		for(j=0; j<brArr.length; j++) {
+		for(int j=0; j<brArr.length; j++) {
 			brArr[j].close();
-			new File("D:\\ACE\\temp-" +j+".txt").delete();
+			new File("D:/ACE/temp-" +j+".txt").delete();
 		}
 
 		long t2 = new Date().getTime();
 		System.out.println("Time taken = " +(t2-t1)/1000 + " sec");
-
 	}
-
+		
 }
