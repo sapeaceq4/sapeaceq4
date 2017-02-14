@@ -21,69 +21,12 @@ public class FileSorter {
         System.out.println("sizeOfInputfileInKB " + sizeOfInputfileInKB + "sizeOfChunk: " + 102400);
         List<File> tempFiles = readInputFileAndCreateSortedChunk(inputFile, 102400);
         System.out.println(tempFiles.size());
-        outPutFile = nWayMerge0(tempFiles,inputFile);
-//        outPutFile = nWayMerge(tempFiles,inputFile);
+        outPutFile = nWayMerge(tempFiles, inputFile);
 
         return outPutFile;
     }
-    private File nWayMerge0(List<File> tempFiles, File inputFile) throws IOException {
-        int numberOfTempFiles= tempFiles.size();
-        File outputFile = new File(inputFile.getParent()+"/output.txt");
-        BufferedReader br[] = new BufferedReader[numberOfTempFiles];
-        BufferedWriter outFile = new BufferedWriter(new FileWriter(outputFile));
-        for (int i = 0; i <numberOfTempFiles ; i++)
-        {
-            br[i] = new BufferedReader(new FileReader(tempFiles.get(i)));
-        }
-        //Read nad merge From files
 
-        int blocksize = 10240;
-        for(int i = 0; i <numberOfTempFiles ; i++)
-        {
-            List<String> tmplist = new ArrayList<>();
-            for(int j = 0; j <numberOfTempFiles ; j++)
-            {
-                try
-                {
-                    String line = "";
-                    try
-                    {
-                        long currentblocksize = 0;
-                        while (((line = br[i].readLine()) != null))
-                        {
-                            if (line != null)
-                            {
-                                tmplist.add(line);
-                                currentblocksize += line.length();
-                            }
-                            if(currentblocksize >= blocksize)
-                            {
-                                break;
-                            }
-                        }
-                    } catch (EOFException oef) {
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } finally {
-                    //br[i].close();
-                }
-            }
-
-            Collections.sort(tmplist);
-            for(String str: tmplist)
-            {
-                outFile.write(str);
-                outFile.newLine();
-            }
-            tmplist.clear();
-
-        }
-        outFile.close();
-        return outputFile;
-    }
-
+    //N way merge using priorityQ
     private File nWayMerge(List<File> tempFiles, File inputFile) throws IOException {
         int numberOfTempFiles = tempFiles.size();
         System.out.println();
@@ -121,17 +64,32 @@ public class FileSorter {
                 bufferStringArray[index] = line.trim();
             }
 
-            for (int i = 0; i < numberOfTempFiles; i++) {
+            /*for (int i = 0; i < numberOfTempFiles; i++) {
                 if (br[i].readLine() != null) {
 
                 }
-            }
+            }*/
+
+            complete = checkIfallNull(br);
 
             if (complete)
                 break;
 
         }
         return outputFile;
+    }
+
+    private boolean checkIfallNull(BufferedReader[] br) throws IOException {
+        int bufferSize = 1024;
+        for (int i = 0; i < br.length; i++) {
+            br[i].mark(bufferSize);
+            if (br[i].readLine() != null) {
+                br[i].reset();
+                return false;
+            }
+
+        }
+        return true;
     }
 
     private int findHeadPointer(String[] bufferStringArray, String headString) {
