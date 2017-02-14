@@ -22,6 +22,5 @@ public class CacheTest
 				System.out.println("Access by client:"+cache.get("D") +" ,size="+ cache.size());
 			}
 		}
-		
 	}
 }
