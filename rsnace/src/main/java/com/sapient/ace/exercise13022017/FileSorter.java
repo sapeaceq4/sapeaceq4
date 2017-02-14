@@ -31,7 +31,7 @@ public class FileSorter {
         File outputFile = new File(tempFiles.get(1).getParent() + "/output.txt");
         BufferedReader br[] = new BufferedReader[numberOfTempFiles];
         BufferedWriter outFile = new BufferedWriter(new FileWriter(outputFile));
-        PriorityQueue<String> mergerQ = new PriorityQueue<>();
+        PriorityQueue<String> mergerQ = new PriorityQueue<String>();
 
         for (int i = 0; i < numberOfTempFiles; i++) {
             br[i] = new BufferedReader(new FileReader(tempFiles.get(i)));
