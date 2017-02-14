@@ -23,7 +23,6 @@ public class App {
 		props.setProperty(Context.INITIAL_CONTEXT_FACTORY,
 				"org.apache.activemq.jndi.ActiveMQInitialContextFactory");
 		props.setProperty(Context.PROVIDER_URL, "tcp://localhost:61616");
-		props.setProperty("queue.MyQueue", "TestMyQueue");
 
 		InitialContext context = new InitialContext(props);
 		QueueConnectionFactory factory = (QueueConnectionFactory) context
