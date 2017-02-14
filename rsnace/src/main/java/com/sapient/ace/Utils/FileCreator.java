@@ -12,13 +12,18 @@ import java.util.UUID;
 
 public class FileCreator {
     public static void main(String[] args) throws IOException {
-        File file = new File("src/main/resource/input.txt");
-        FileWriter fos = new FileWriter(file, true);
+        if(args.length <1){
+            System.out.printf("Usage - Size in MB");
+            System.exit(0);
+        }
+        int sizeInMB = Integer.parseInt(args[0]);
+        File file = new File("src/main/resources/input.txt");
+        FileWriter fos = new FileWriter(file);
         PrintWriter printWriter = new PrintWriter(fos);
         while (true) {
             printWriter.write(UUID.randomUUID().toString());
             printWriter.write("\n");
-            if (file.length() / (1024 * 1024 * 100) >= 1) {
+            if (file.length() / (1024 * 1024 * sizeInMB) >= 1) {
                 break;
             }
         }
