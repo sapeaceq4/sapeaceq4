@@ -1,7 +1,6 @@
 package org.om.aec.algo.cache;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -11,120 +10,193 @@ public class Cache<K,V> extends LinkedHashMap<K, V>
 {
 	private static final long serialVersionUID = 1L;
 	private int capacity;
-	
-	public Cache(int capacity, long timeToLiveInMillis)
+
+	public Cache(int capacity)
 	{
-		if(capacity < 0 && timeToLiveInMillis < 0)
-			throw new IllegalArgumentException("Please provide valid argument");
+		this(capacity, 0, 0);
+	}
+	
+	public Cache(int capacity, long timeToLiveInMillis, long accessTimeExpiredInMillis)
+	{
+		if(capacity < 0)
+			throw new IllegalArgumentException("Please provide the valid arguments");
 		this.capacity = capacity;
+		if(timeToLiveInMillis > 0)
+			new TimeToLivePloicy(timeToLiveInMillis).apply();
 		
-		new TimeToLivePloicy(timeToLiveInMillis).apply();
+		if(accessTimeExpiredInMillis > 0)
+			new AccessTimeExpirePolicy(accessTimeExpiredInMillis).apply();
 	}
-	
-	 public synchronized V remove(Object key)
-	 {
-		 return super.remove(key);
-	 }
-	
-	public synchronized Collection<V> values() 
+
+	public synchronized V get(Object key)
 	{
-		return super.values();
+		@SuppressWarnings("unchecked")
+		CacheItem cacheItem = (CacheItem)super.get(key);
+		if(cacheItem == null)
+			return null;
+		cacheItem.updateAccessTime(System.currentTimeMillis());
+		return cacheItem.getValue();
 	}
 	
+	public synchronized V remove(Object key)
+	{
+		@SuppressWarnings("unchecked")
+		CacheItem cacheItem = (CacheItem)super.remove(key);
+		return cacheItem.getValue();
+	}
+
+	public synchronized List<V> values() 
+	{
+		List<V> values = new ArrayList<V>();
+		for (V value : super.values()) 
+		{
+			@SuppressWarnings("unchecked")
+			CacheItem cacheItem = (CacheItem)value;
+			cacheItem.updateAccessTime(System.currentTimeMillis());
+			values.add(cacheItem.getValue());
+		}
+		return values;
+	}
+
 	@Override
 	protected synchronized boolean removeEldestEntry(java.util.Map.Entry<K, V> eldest)
 	{
 		return size() > capacity;	
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public synchronized V put(K key, V value)
 	{
-		return super.put(key, (V)new InternalItem(key, value));
+		return super.put(key, (V)new CacheItem(value));
 	}
-	
-	class InternalItem
+
+	class CacheItem
 	{
 		private long creationTime;
+		private long lastAccessTime;
 		private V value;
-		private K key;
-		InternalItem(K key, V value)
+
+		CacheItem(V value)
 		{
-			this.key = key;
-			creationTime = System.currentTimeMillis();
+			this.lastAccessTime = System.currentTimeMillis();
+			this.creationTime = System.currentTimeMillis();
 			this.value = value;
 		}
-		public K getKey() 
-		{
-			return key;
+		void updateAccessTime(long accessTime){
+			this.lastAccessTime = accessTime;
 		}
-		public long getCreationTime() {
+		long getLastAccessTime(){
+			return lastAccessTime;
+		}
+		long getCreationTime() {
 			return creationTime;
 		}
-		public V getValue() {
+		V getValue() {
 			return value;
 		}
 		@Override
 		public String toString() {
-			return "InternalItem [creationTime=" + creationTime + ", value="
-					+ value + ", key=" + key + "]";
+			return "CacheItem [creationTime=" + creationTime + ", accessTime="
+					+ lastAccessTime + ", value=" + value + "]";
+		}
+	}
+
+	abstract class CachePolicy implements Runnable
+	{
+		private static final int DEFAULT_POLICY_WAITINF_TIME = 500; 
+		protected long expireInMills;
+		private volatile boolean isPolicyStopRequested;
+		private Thread thread;
+		CachePolicy(long expireInMills)
+		{
+			this(expireInMills, DEFAULT_POLICY_WAITINF_TIME);
 		}
 
-	}
-	
-	class TimeToLivePloicy implements Runnable
-	{
-		private static final int DEFAULT_WAITINF_TIME = 500;
-		private long retainTime;
-		public Thread thread;
-		
-		TimeToLivePloicy(long timeToLiveTimeInMillis)
+		CachePolicy(long expireInMills, long policyWaitingTime)
 		{
-			this(timeToLiveTimeInMillis, DEFAULT_WAITINF_TIME);
-		}
-		
-		TimeToLivePloicy(long timeToLiveTimeInMillis, long policyWaitingTime)
-		{
-			this.retainTime = timeToLiveTimeInMillis;
+			this.expireInMills = expireInMills;
 			thread = new Thread(this);
 		}
 		
-		public void apply()
+		void apply()
 		{
 			thread.start();
 		}
-		
-		public void stop()
+
+		void discard()
 		{
+			isPolicyStopRequested = true;
 			thread.interrupt();
 		}
 		
 		@Override
-		public void run() 
+		public void run()
 		{
-			while(true)
+			while(!isPolicyStopRequested)
 			{
-				synchronized (TimeToLivePloicy.this) 
+				synchronized (Cache.this) 
 				{
 					List<K> keysWillBeRemove = new ArrayList<K>();
-					
-					for (V v : values()) 
+					for (java.util.Map.Entry<K, V> entry : entrySet())
 					{
-						InternalItem internalItem = (InternalItem)v;
-						long spendTime = System.currentTimeMillis() - internalItem.getCreationTime();
-						if(spendTime >= retainTime)
+						@SuppressWarnings("unchecked")
+						CacheItem internalItem = (CacheItem)entry.getValue();
+						if(test(internalItem))
 						{
-							keysWillBeRemove.add(internalItem.getKey());
+							keysWillBeRemove.add(entry.getKey());
 						}
 					}
 					for(K key: keysWillBeRemove)
 					{
 						remove(key);
 					}
-					
+					keysWillBeRemove.clear();
 				}
-				
-				AppUtils.asleep(DEFAULT_WAITINF_TIME);
+				AppUtils.asleep(DEFAULT_POLICY_WAITINF_TIME);
+			
 			}
 		}
+	
+		abstract boolean test(CacheItem cacheItem);
 	}
+	
+	class AccessTimeExpirePolicy extends CachePolicy
+	{
+		AccessTimeExpirePolicy(long accessTimeExpireInMills)
+		{
+			super(accessTimeExpireInMills);
+		}
+		AccessTimeExpirePolicy(long accessTimeExpireInMills, long policyWaitingTime)
+		{
+			super(accessTimeExpireInMills, policyWaitingTime);
+		}
+		
+		@Override
+		boolean test(CacheItem cacheItem) 
+		{
+			long lastAccessTime = System.currentTimeMillis() - cacheItem.getLastAccessTime();
+			return lastAccessTime >= expireInMills? true: false;
+		}
+	}
+	
+	class TimeToLivePloicy extends CachePolicy
+	{
+		TimeToLivePloicy(long timeToLiveTimeInMillis)
+		{
+			super(timeToLiveTimeInMillis);
+		}
+
+		TimeToLivePloicy(long timeToLiveTimeInMillis, long policyWaitingTime)
+		{
+			super(timeToLiveTimeInMillis, policyWaitingTime);
+		}
+		
+		@Override
+		boolean test(CacheItem cacheItem) 
+		{
+			long lastAccessTime = System.currentTimeMillis() - cacheItem.getCreationTime();
+			return lastAccessTime >= expireInMills? true: false;
+		}
+	}
+
 }

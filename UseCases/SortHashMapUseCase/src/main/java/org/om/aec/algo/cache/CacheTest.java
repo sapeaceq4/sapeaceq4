@@ -6,7 +6,7 @@ public class CacheTest
 {
 	public static void main(String[] args) 
 	{
-		Cache<String, Integer> cache = new Cache<String, Integer>(2, 10000);
+		Cache<String, Integer> cache = new Cache<String, Integer>(4, 2000, 2000);
 		cache.put("A", 1);
 		AppUtils.asleep(100);
 		cache.put("B", 2);
@@ -17,12 +17,10 @@ public class CacheTest
 		while(true)
 		{
 			AppUtils.asleep(100);
-			
-			synchronized (cache) {
-				
-				System.out.println(cache.values());
+			synchronized (cache)
+			{
+				System.out.println("Access by client:"+cache.get("D") +" ,size="+ cache.size());
 			}
-			
 		}
 		
 	}
