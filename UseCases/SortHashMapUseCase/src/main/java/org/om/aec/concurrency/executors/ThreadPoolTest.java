@@ -1,5 +1,6 @@
 package org.om.aec.concurrency.executors;
 
+import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 
 public class ThreadPoolTest 
@@ -13,15 +14,16 @@ public class ThreadPoolTest
 	}
 }
 
-class Task implements Runnable
+class Task implements Callable<String>
 {
 	public Task()
 	{
 		
 	}
 	@Override
-	public void run() 
+	public String call() 
 	{
 		System.out.println("Run");
+		return "";
 	}
 }

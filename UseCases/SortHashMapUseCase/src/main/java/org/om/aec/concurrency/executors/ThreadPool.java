@@ -3,8 +3,13 @@ package org.om.aec.concurrency.executors;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
+
+import org.om.aec.concurrency.exchanger.future.FutureImpl;
+import org.om.aec.concurrency.exchanger.future.IFuture;
 
 public class ThreadPool implements IThreadPool
 {
@@ -12,6 +17,11 @@ public class ThreadPool implements IThreadPool
 	private ThreadFactory threadFactory;
 	private BlockingQueue<Runnable> tasks;
 	private int poolSize;
+	
+	public ThreadPool(int poolSize)
+	{
+		this(Executors.defaultThreadFactory(), poolSize);
+	}
 	
 	public ThreadPool(ThreadFactory threadFactory, int poolSize)
 	{
@@ -58,15 +68,18 @@ public class ThreadPool implements IThreadPool
 		}
 	}
 	
-	public void submit(Runnable runnable)
+	public <T> IFuture<T> submit(Callable<T> runnable)
 	{
-		tasks.add(runnable);
+		IFuture<T> future = new FutureImpl<T>(runnable);
+		tasks.add(future);
 		if(workers.size() < poolSize)
 		{
 			Worker worker = new Worker();
 			workers.add(worker);
 			worker.start();
 		}
+		
+		return future;
 	}
 
 	@Override
