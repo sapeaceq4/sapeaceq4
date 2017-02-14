@@ -6,7 +6,6 @@ import java.io.IOException;
 
 public class ExternalMergeSort
 {
-
     public static void main(String[] args) throws IOException
     {
         
@@ -15,6 +14,4 @@ public class ExternalMergeSort
         sorter.sort(inputFile);
 
     }
-
-
 }

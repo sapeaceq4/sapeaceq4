@@ -22,28 +22,28 @@ public class FileSorter
         long sizeOfInputfileInKB = inputFile.length() / (1024);
         long sizeOfChunk = (int) (sizeOfInputfileInKB / 10) + 1;
 
-        System.out.println("TotalSize="+inputFile.length() +"sizeOfInputfileInKB="+ sizeOfInputfileInKB 
+        System.out.println("TotalSize="+inputFile.length() +" ,sizeOfInputfileInKB="+ sizeOfInputfileInKB 
         		+ " ,sizeOfChunk="+ sizeOfChunk 
         		+ " , sizeOfInputfileInKB * sizeOfChunk="+ sizeOfInputfileInKB * sizeOfChunk);
         
         List<File> tempFiles = readInputFileAndCreateSortedChunk(inputFile, 102400);
 
-        outPutFile = nWayMerge(tempFiles);       
+        outPutFile = nWayMerge(tempFiles, inputFile);       
         
         return outPutFile;
     }
 
-    private File nWayMerge(List<File> tempFiles) throws IOException {
+    private File nWayMerge(List<File> tempFiles, File inputFile) throws IOException 
+    {
         int numberOfTempFiles= tempFiles.size();
-        File outputFile = new File(tempFiles.get(1).getParent()+"/output.txt");
+        File outputFile = new File(inputFile.getParent()+"/output.txt");
         BufferedReader br[] = new BufferedReader[numberOfTempFiles];
         BufferedWriter outFile = new BufferedWriter(new FileWriter(outputFile));
         for (int i = 0; i <numberOfTempFiles ; i++) 
         {
             br[i] = new BufferedReader(new FileReader(tempFiles.get(i)));
         }
-        //Read nad merge From files
-
+        
         int blocksize = 10240;
         for(int i = 0; i <numberOfTempFiles ; i++)
         {
@@ -96,7 +96,7 @@ public class FileSorter
     {
         Collections.sort(tmplist);
         File newtmpfile = File.createTempFile("sortInBatch", "flatfile");
-        //newtmpfile.deleteOnExit();
+        newtmpfile.deleteOnExit();
         BufferedWriter fbw = new BufferedWriter(new FileWriter(newtmpfile));
         try {
             for (String r : tmplist) {
@@ -113,13 +113,13 @@ public class FileSorter
         List<File> files = new ArrayList<>();
         BufferedReader bufferedReader = new BufferedReader(new FileReader(inputFile));
         long blocksize = sizeOfChunk;
+        List<String> tmplist = new ArrayList<>();
+        long currentblocksize = 0;
         try 
         {
-            List<String> tmplist = new ArrayList<>();
             String line = "";
             try 
             {
-                long currentblocksize = 0;
                 while (((line = bufferedReader.readLine()) != null))
                 {
                 	tmplist.add(line);
@@ -127,22 +127,30 @@ public class FileSorter
 
                 	if(currentblocksize >= blocksize)
                 	{
-                		System.out.println("***********size written"+ currentblocksize);
+                		System.out.println("Written Size="+ currentblocksize);
                 		files.add(sortandcreatetemp(tmplist));
                 		tmplist.clear();
                 		currentblocksize = 0;
                 	}
                 }
-            } catch (EOFException oef) {
-                if (tmplist.size() > 0) {
-                	System.out.println("**************");
-                    files.add(sortandcreatetemp(tmplist));
-                    tmplist.clear();
-                }
-            } catch (IOException e) {
+            } 
+            catch (EOFException oef) 
+            {
+            	oef.printStackTrace();
+            } 
+            catch (IOException e) 
+            {
                 e.printStackTrace();
             }
-        } finally {
+        } 
+        finally 
+        {
+            if (tmplist.size() > 0)
+            {
+            	System.out.println("Finally Written Size="+ currentblocksize);
+                files.add(sortandcreatetemp(tmplist));
+                tmplist.clear();
+            }
             bufferedReader.close();
         }
         return files;
