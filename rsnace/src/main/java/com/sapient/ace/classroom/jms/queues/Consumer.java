@@ -13,7 +13,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class Consumer {
 
-
     private MessageConsumer consumer;
     private Session session;
     private Context context = null;
@@ -55,6 +54,7 @@ public class Consumer {
     }
 
     public void stop() {
+
         if (connection != null) {
             try {
                 connection.close();

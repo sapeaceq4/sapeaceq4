@@ -21,14 +21,73 @@ public class FileSorter {
         System.out.println("sizeOfInputfileInKB " + sizeOfInputfileInKB + "sizeOfChunk: " + 102400);
         List<File> tempFiles = readInputFileAndCreateSortedChunk(inputFile, 102400);
         System.out.println(tempFiles.size());
-        outPutFile = nWayMerge(tempFiles);
+        outPutFile = nWayMerge0(tempFiles,inputFile);
+//        outPutFile = nWayMerge(tempFiles,inputFile);
+
         return outPutFile;
     }
+    private File nWayMerge0(List<File> tempFiles, File inputFile) throws IOException {
+        int numberOfTempFiles= tempFiles.size();
+        File outputFile = new File(inputFile.getParent()+"/output.txt");
+        BufferedReader br[] = new BufferedReader[numberOfTempFiles];
+        BufferedWriter outFile = new BufferedWriter(new FileWriter(outputFile));
+        for (int i = 0; i <numberOfTempFiles ; i++)
+        {
+            br[i] = new BufferedReader(new FileReader(tempFiles.get(i)));
+        }
+        //Read nad merge From files
 
-    private File nWayMerge(List<File> tempFiles) throws IOException {
+        int blocksize = 10240;
+        for(int i = 0; i <numberOfTempFiles ; i++)
+        {
+            List<String> tmplist = new ArrayList<>();
+            for(int j = 0; j <numberOfTempFiles ; j++)
+            {
+                try
+                {
+                    String line = "";
+                    try
+                    {
+                        long currentblocksize = 0;
+                        while (((line = br[i].readLine()) != null))
+                        {
+                            if (line != null)
+                            {
+                                tmplist.add(line);
+                                currentblocksize += line.length();
+                            }
+                            if(currentblocksize >= blocksize)
+                            {
+                                break;
+                            }
+                        }
+                    } catch (EOFException oef) {
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } finally {
+                    //br[i].close();
+                }
+            }
+
+            Collections.sort(tmplist);
+            for(String str: tmplist)
+            {
+                outFile.write(str);
+                outFile.newLine();
+            }
+            tmplist.clear();
+
+        }
+        outFile.close();
+        return outputFile;
+    }
+
+    private File nWayMerge(List<File> tempFiles, File inputFile) throws IOException {
         int numberOfTempFiles = tempFiles.size();
         System.out.println();
-        File outputFile = new File(tempFiles.get(1).getParent() + "/output.txt");
+        File outputFile = new File(inputFile.getParent() + "/output.txt");
         BufferedReader br[] = new BufferedReader[numberOfTempFiles];
         BufferedWriter outFile = new BufferedWriter(new FileWriter(outputFile));
         PriorityQueue<String> mergerQ = new PriorityQueue<String>();
@@ -44,9 +103,9 @@ public class FileSorter {
             bufferStringArray[i] = qString;
             mergerQ.add(qString);
         }
-
+        boolean complete = false;
         while (true) {
-            boolean complete = false;
+
             String headString;
 
             headString = mergerQ.poll();
@@ -54,15 +113,17 @@ public class FileSorter {
             outFile.write("\n");
 
             int index = findHeadPointer(bufferStringArray, headString);
+            System.out.println("index "+index);
 
             String line;
             if ((line = br[index].readLine()) != null) {
                 mergerQ.add(line.trim());
                 bufferStringArray[index] = line.trim();
             }
+
             for (int i = 0; i < numberOfTempFiles; i++) {
-                if (br[i].readLine() == null) {
-                    complete = true;
+                if (br[i].readLine() != null) {
+
                 }
             }
 
@@ -87,7 +148,7 @@ public class FileSorter {
     public static File sortandcreatetemp(List<String> tmplist) throws IOException {
         Collections.sort(tmplist);
         File newtmpfile = File.createTempFile("temp", ".txt");
-//        newtmpfile.deleteOnExit();
+        newtmpfile.deleteOnExit();
         BufferedWriter fbw = new BufferedWriter(new FileWriter(newtmpfile));
         try {
             for (String r : tmplist) {
@@ -104,15 +165,16 @@ public class FileSorter {
         List<File> files = new ArrayList<>();
         BufferedReader bufferedReader = new BufferedReader(new FileReader(inputFile));
         long blocksize = size;
+        List<String> tmplist = new ArrayList<>();
+        long currentblocksize = 0;
         try {
-            List<String> tmplist = new ArrayList<>();
             String line = "";
             try {
-                long currentblocksize = 0;
                 while ((currentblocksize < blocksize) && ((line = bufferedReader.readLine()) != null)) {
                     tmplist.add(line);
                     currentblocksize += line.length();
                     if (currentblocksize >= blocksize) {
+                        System.out.println("bytes written "+currentblocksize);
                         files.add(sortandcreatetemp(tmplist));
                         tmplist.clear();
                         currentblocksize = 0;
@@ -127,6 +189,10 @@ public class FileSorter {
                 e.printStackTrace();
             }
         } finally {
+            if (tmplist.size() > 0) {
+                files.add(sortandcreatetemp(tmplist));
+                tmplist.clear();
+            }
             bufferedReader.close();
         }
         return files;
