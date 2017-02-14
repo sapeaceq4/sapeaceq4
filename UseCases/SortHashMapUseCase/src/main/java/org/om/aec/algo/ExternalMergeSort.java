@@ -10,7 +10,7 @@ public class ExternalMergeSort
     public static void main(String[] args) throws IOException
     {
         
-        File inputFile = new File("./data/bigFile.txt");
+        File inputFile = new File("src/main/resources/input.txt");
         FileSorter sorter = new FileSorter();
         sorter.sort(inputFile);
 
