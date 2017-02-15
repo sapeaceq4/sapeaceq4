@@ -10,6 +10,7 @@ public class Cache<K,V> extends LinkedHashMap<K, V>
 {
 	private static final long serialVersionUID = 1L;
 	private int capacity;
+	private PolicyApplier policyApplier;
 
 	public Cache(int capacity)
 	{
@@ -21,11 +22,21 @@ public class Cache<K,V> extends LinkedHashMap<K, V>
 		if(capacity < 0)
 			throw new IllegalArgumentException("Please provide the valid arguments");
 		this.capacity = capacity;
+		List<CachePolicy> cachePolicies = new ArrayList<CachePolicy>();
+		
 		if(timeToLiveInMillis > 0)
-			new TimeToLivePloicy(timeToLiveInMillis).apply();
+			cachePolicies.add(new TimeToLivePloicy(timeToLiveInMillis));
 		
 		if(accessTimeExpiredInMillis > 0)
-			new AccessTimeExpirePolicy(accessTimeExpiredInMillis).apply();
+			cachePolicies.add(new AccessTimeExpirePolicy(accessTimeExpiredInMillis));
+			
+		this. policyApplier = new PolicyApplier(cachePolicies);
+		this.policyApplier.start();
+	}
+
+	public synchronized void clear()
+	{
+		super.clear();
 	}
 
 	public synchronized V get(Object key)
@@ -101,38 +112,34 @@ public class Cache<K,V> extends LinkedHashMap<K, V>
 		}
 	}
 
-	abstract class CachePolicy implements Runnable
+
+	class PolicyApplier implements Runnable
 	{
 		private static final int DEFAULT_POLICY_WAITINF_TIME = 500; 
-		protected long expireInMills;
-		private volatile boolean isPolicyStopRequested;
+		private List<CachePolicy> policies;
 		private Thread thread;
-		CachePolicy(long expireInMills)
+		private volatile boolean isStopTiggered;
+		PolicyApplier(List<CachePolicy> policies)
 		{
-			this(expireInMills, DEFAULT_POLICY_WAITINF_TIME);
-		}
-
-		CachePolicy(long expireInMills, long policyWaitingTime)
-		{
-			this.expireInMills = expireInMills;
-			thread = new Thread(this);
+			this.policies = policies;
+			this.thread = new Thread(this);
 		}
 		
-		void apply()
+		void start()
 		{
-			thread.start();
+			this.thread.start();
 		}
-
-		void discard()
+		
+		void stop()
 		{
-			isPolicyStopRequested = true;
-			thread.interrupt();
+			isStopTiggered = true;
+			this.thread.interrupt();
 		}
 		
 		@Override
-		public void run()
+		public void run() 
 		{
-			while(!isPolicyStopRequested)
+			while(!isStopTiggered)
 			{
 				synchronized (Cache.this) 
 				{
@@ -141,9 +148,14 @@ public class Cache<K,V> extends LinkedHashMap<K, V>
 					{
 						@SuppressWarnings("unchecked")
 						CacheItem internalItem = (CacheItem)entry.getValue();
-						if(test(internalItem))
+						
+						for (Cache<K, V>.CachePolicy cachePolicy : policies) 
 						{
-							keysWillBeRemove.add(entry.getKey());
+							if(cachePolicy.test(internalItem))
+							{
+								keysWillBeRemove.add(entry.getKey());
+								break;
+							}
 						}
 					}
 					for(K key: keysWillBeRemove)
@@ -156,7 +168,17 @@ public class Cache<K,V> extends LinkedHashMap<K, V>
 			
 			}
 		}
+	}
 	
+	abstract class CachePolicy
+	{
+		protected long expireInMills;
+		
+		CachePolicy(long expireInMills)
+		{
+			this.expireInMills = expireInMills;
+		}
+
 		abstract boolean test(CacheItem cacheItem);
 	}
 	
@@ -165,10 +187,6 @@ public class Cache<K,V> extends LinkedHashMap<K, V>
 		AccessTimeExpirePolicy(long accessTimeExpireInMills)
 		{
 			super(accessTimeExpireInMills);
-		}
-		AccessTimeExpirePolicy(long accessTimeExpireInMills, long policyWaitingTime)
-		{
-			super(accessTimeExpireInMills, policyWaitingTime);
 		}
 		
 		@Override
@@ -184,11 +202,6 @@ public class Cache<K,V> extends LinkedHashMap<K, V>
 		TimeToLivePloicy(long timeToLiveTimeInMillis)
 		{
 			super(timeToLiveTimeInMillis);
-		}
-
-		TimeToLivePloicy(long timeToLiveTimeInMillis, long policyWaitingTime)
-		{
-			super(timeToLiveTimeInMillis, policyWaitingTime);
 		}
 		
 		@Override
