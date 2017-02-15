@@ -2,7 +2,7 @@ package org.om.aec.concurrency.executors.usecase;
 
 import java.util.concurrent.LinkedBlockingQueue;
 
-import org.om.aec.utils.AppUtils;
+import org.om.aec.utils.CommonTools;
 
 public class DownloadClient 
 {
@@ -27,7 +27,7 @@ public class DownloadClient
 			{
 				downloadManager.putOnDownLoad(new ShortDownloadTask(noOfRequestInitiate));
 				downloadManager.putOnDownLoad(new LargeDownloadTask(--noOfRequestInitiate));
-				AppUtils.asleep(200);
+				CommonTools.asleep(200);
 			}
 		}
 	}

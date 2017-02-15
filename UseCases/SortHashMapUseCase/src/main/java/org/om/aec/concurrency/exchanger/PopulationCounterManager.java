@@ -1,6 +1,6 @@
 package org.om.aec.concurrency.exchanger;
 
-import org.om.aec.utils.AppUtils;
+import org.om.aec.utils.CommonTools;
 
 
 public class PopulationCounterManager 
@@ -26,7 +26,7 @@ public class PopulationCounterManager
 		public void run() 
 		{
 			totalPopulation += 10;
-			AppUtils.asleep(1000);
+			CommonTools.asleep(1000);
 			latch.countDown();
 		}
 	};
@@ -37,7 +37,7 @@ public class PopulationCounterManager
 		public void run() 
 		{
 			totalPopulation += 50;
-			AppUtils.asleep(2000);
+			CommonTools.asleep(2000);
 			latch.countDown();
 		}
 	};

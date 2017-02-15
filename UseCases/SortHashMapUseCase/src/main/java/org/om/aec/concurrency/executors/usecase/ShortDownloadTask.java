@@ -1,6 +1,6 @@
 package org.om.aec.concurrency.executors.usecase;
 
-import org.om.aec.utils.AppUtils;
+import org.om.aec.utils.CommonTools;
 
 public class ShortDownloadTask extends DownloadTask
 {
@@ -13,8 +13,8 @@ public class ShortDownloadTask extends DownloadTask
 	protected DownloadEvent start() 
 	{
 		long startTime = System.currentTimeMillis();
-		AppUtils.asleep(10);
-		AppUtils.asleep(100);
+		CommonTools.asleep(10);
+		CommonTools.asleep(100);
 		return new DownloadCompletedEvent(taskId, true, "Download task completed",
 				(System.currentTimeMillis() - startTime));
 	}
