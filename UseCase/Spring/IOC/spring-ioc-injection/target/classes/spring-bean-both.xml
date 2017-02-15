@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- <bean id="student" class="com.sapient.ace.injection.both.Student"> 
+		<constructor-arg name="age" value="25" /> <constructor-arg name="name" value="consturctor 
+		student" /> <constructor-arg name="address" ref="address" /> <property name="age" 
+		value="25" /> <property name="name" value="student 1" /> <property name="address" 
+		ref="address" /> </bean> -->
+	<bean id="myAddress" class="com.sapient.ace.injection.both.Address">
+		
+		<constructor-arg name="address" value="My Address" />
+		<constructor-arg name="pinCode" value="3232111" />
+		
+		<property name="address" value="My Address setter" />
+		<property name="pinCode" value="231211" />
+
+	</bean>
+
+</beans>
