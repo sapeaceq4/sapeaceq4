@@ -1,5 +1,7 @@
-package org.om.aec.concurrency.exchanger;
+package org.om.aec.concurrency.exchanger.usecase;
 
+import org.om.aec.concurrency.exchanger.ILatch;
+import org.om.aec.concurrency.exchanger.LatchImpl;
 import org.om.aec.utils.CommonTools;
 
 
