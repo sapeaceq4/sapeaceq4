@@ -12,7 +12,7 @@ public class SocketClient {
         SocketInputGenerator inputGenerator = new SocketInputGenerator(testServerName, port);
         Thread clients[] = new Thread[20];
         for (int i = 0; i < 20; i++) {
-            clients[i] = new Thread(inputGenerator, "Client-" + i);
+            clients[i] = new Thread(inputGenerator, "SpringDaoClient-" + i);
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {

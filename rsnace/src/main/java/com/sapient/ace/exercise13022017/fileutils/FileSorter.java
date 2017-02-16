@@ -45,15 +45,18 @@ public class FileSorter {
             String qString = reader.readLine().trim();
             bufferStringArray[i] = qString;
             mergerQ.add(qString);
+            System.out.println("init q size " + mergerQ.size());
         }
         boolean complete = false;
         while (true) {
             String headString;
             headString = mergerQ.poll();
+            if (headString == null)
+                break;
             outFile.write(headString);
-            outFile.write("\n");
+            outFile.newLine();
+//            outFile.write("\r");
             int index = findHeadPointer(bufferStringArray, headString);
-            System.out.println("index " + index);
 
             String line;
             if ((line = br[index].readLine()) != null) {
@@ -63,24 +66,24 @@ public class FileSorter {
 
             complete = checkIfallNull(br);
             if (complete) {
-
                 while ((headString = mergerQ.poll()) != null) {
                     outFile.write(headString);
+                    System.out.println("Qsize " + mergerQ.size());
                 }
                 break;
             }
-
         }
         return outputFile;
     }
 
     private boolean checkIfallNull(BufferedReader[] br) throws IOException {
-        int bufferSize = 1024;
+//        int bufferSize = 1024;
         for (int i = 0; i < br.length; i++) {
-            br[i].mark(bufferSize);
-            char[] buf = new char[bufferSize];
-            if (br[i].read(buf)>=1) {
-                br[i].reset();
+//            br[i].mark(bufferSize);
+//            char[] buf = new char[bufferSize];
+//            if (br[i].read(buf)>=1) {
+            if (br[i].ready()) {
+//                br[i].reset();
                 return false;
             }
 
