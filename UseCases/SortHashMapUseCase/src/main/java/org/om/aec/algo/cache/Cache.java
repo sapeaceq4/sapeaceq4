@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.om.aec.utils.AppUtils;
+import org.om.aec.utils.CommonTools;
 
 public class Cache<K,V> extends LinkedHashMap<K, V>
 {
@@ -164,7 +164,7 @@ public class Cache<K,V> extends LinkedHashMap<K, V>
 					}
 					keysWillBeRemove.clear();
 				}
-				AppUtils.asleep(DEFAULT_POLICY_WAITINF_TIME);
+				CommonTools.asleep(DEFAULT_POLICY_WAITINF_TIME);
 			
 			}
 		}

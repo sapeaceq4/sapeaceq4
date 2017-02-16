@@ -1,6 +1,6 @@
 package org.om.aec.algo.cache;
 
-import org.om.aec.utils.AppUtils;
+import org.om.aec.utils.CommonTools;
 
 public class CacheTest
 {
@@ -8,15 +8,15 @@ public class CacheTest
 	{
 		Cache<String, Integer> cache = new Cache<String, Integer>(4, 2000, 2000);
 		cache.put("A", 1);
-		AppUtils.asleep(100);
+		CommonTools.asleep(100);
 		cache.put("B", 2);
-		AppUtils.asleep(500);
+		CommonTools.asleep(500);
 		cache.put("C", 3);
-		AppUtils.asleep(1000);
+		CommonTools.asleep(1000);
 		cache.put("D", 4);
 		while(true)
 		{
-			AppUtils.asleep(100);
+			CommonTools.asleep(100);
 			synchronized (cache)
 			{
 				System.out.println("Access by client:"+cache.get("D") +" ,size="+ cache.size());

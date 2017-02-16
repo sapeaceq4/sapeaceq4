@@ -9,7 +9,7 @@ import javax.jms.ObjectMessage;
 import javax.jms.Session;
 import javax.naming.Context;
 
-import org.om.aec.utils.AppUtils;
+import org.om.aec.utils.CommonTools;
 
 public class Producer implements Runnable
 {
@@ -56,7 +56,7 @@ public class Producer implements Runnable
 			{
 				ObjectMessage objectMessage = session.createObjectMessage(new PriceEntity("Om", "1", price++));
 				messageProducer.send(objectMessage);
-				AppUtils.asleep(1000);
+				CommonTools.asleep(1000);
 			}
 		} 
 		catch (JMSException e) 
