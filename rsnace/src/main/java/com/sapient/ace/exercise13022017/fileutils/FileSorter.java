@@ -1,4 +1,4 @@
-package com.sapient.ace.exercise13022017;
+package com.sapient.ace.exercise13022017.fileutils;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -48,13 +48,10 @@ public class FileSorter {
         }
         boolean complete = false;
         while (true) {
-
             String headString;
-
             headString = mergerQ.poll();
             outFile.write(headString);
             outFile.write("\n");
-
             int index = findHeadPointer(bufferStringArray, headString);
             System.out.println("index " + index);
 
@@ -64,15 +61,9 @@ public class FileSorter {
                 bufferStringArray[index] = line.trim();
             }
 
-            /*for (int i = 0; i < numberOfTempFiles; i++) {
-                if (br[i].readLine() != null) {
-
-                }
-            }*/
-
             complete = checkIfallNull(br);
-
             if (complete) {
+
                 while ((headString = mergerQ.poll()) != null) {
                     outFile.write(headString);
                 }

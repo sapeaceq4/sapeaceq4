@@ -18,8 +18,6 @@ public class ParserInvocationHandler implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         System.out.println("------------------------ log to database-----------------");
-//        System.out.println("Proxy"+ proxy!=null?proxy:"proxy is null");
-//        System.out.println("Proxy class "+ proxy.getClass());
 
         System.out.println("Method "+ method.getName());
         System.out.println("Class "+ method.getDeclaringClass());

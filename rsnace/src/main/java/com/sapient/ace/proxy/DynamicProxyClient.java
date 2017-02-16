@@ -5,7 +5,7 @@ import java.lang.reflect.Proxy;
 /**
  * Created by rsi164 on 2/7/2017.
  */
-public class DynamicProxyDemo {
+public class DynamicProxyClient {
     public static void main(String[] args) {
         //Create proxy object
         Parser parser = (Parser) Proxy.newProxyInstance(Parser.class.getClassLoader(),new Class<?>[]{Parser.class},
