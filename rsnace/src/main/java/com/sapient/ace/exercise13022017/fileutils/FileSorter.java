@@ -19,7 +19,7 @@ public class FileSorter {
 //        int sizeOfChunk = (int) (sizeOfInputfileInKB / 10) + 1;
 //        int sizeOfChunk = (int) (sizeOfInputfileInKB / 10) ;
         System.out.println("sizeOfInputfileInKB " + sizeOfInputfileInKB + "sizeOfChunk: " + 102400);
-        List<File> tempFiles = readInputFileAndCreateSortedChunk(inputFile, 102400);
+        List<File> tempFiles = readInputFileAndCreateSortedChunk(inputFile, /*102400*/1024);
         System.out.println(tempFiles.size());
         outPutFile = nWayMerge(tempFiles, inputFile);
 
@@ -78,17 +78,21 @@ public class FileSorter {
 
     private boolean checkIfallNull(BufferedReader[] br) throws IOException {
 //        int bufferSize = 1024;
-        for (int i = 0; i < br.length; i++) {
+        boolean flag = true;
+        int i = 0;
+        for (; i < br.length; i++) {
 //            br[i].mark(bufferSize);
 //            char[] buf = new char[bufferSize];
 //            if (br[i].read(buf)>=1) {
             if (br[i].ready()) {
 //                br[i].reset();
-                return false;
+                flag = false;
+                break;
             }
 
         }
-        return true;
+        System.out.println("Complete flag" + flag + i);
+        return flag;
     }
 
     private int findHeadPointer(String[] bufferStringArray, String headString) {
@@ -105,7 +109,7 @@ public class FileSorter {
     public static File sortandcreatetemp(List<String> tmplist) throws IOException {
         Collections.sort(tmplist);
         File newtmpfile = File.createTempFile("temp", ".txt");
-        newtmpfile.deleteOnExit();
+//        newtmpfile.deleteOnExit();
         BufferedWriter fbw = new BufferedWriter(new FileWriter(newtmpfile));
         try {
             for (String r : tmplist) {

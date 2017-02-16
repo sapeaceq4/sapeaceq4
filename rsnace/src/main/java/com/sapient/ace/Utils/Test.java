@@ -1,27 +1,28 @@
 package com.sapient.ace.Utils;
 
-import java.util.*;
-
-import static java.util.Collections.*;
+import java.util.PriorityQueue;
 
 /**
  * Created by Ravdeep Singh on 2/15/2017.
  */
 public class Test {
     public static void main(String[] args) {
-        List<String> input = new ArrayList<>();
-        input.add("a");
-        input.add("g");
-        input.add("c");
-        input.add("i");
-        input.add("q");
-        input.add("m");
+        PriorityQueue<String> priorityQueue = new PriorityQueue<>();
 
-        System.out.println(input);
-        sort(input);
-        System.out.println(input);
-        input.add("x");
-        input.add("b");
-        System.out.println(input);
+        priorityQueue.add("a");
+        System.out.printf("size " + priorityQueue.size());
+
+        priorityQueue.add("a");
+        System.out.printf("size " + priorityQueue.size());
+
+        priorityQueue.poll();
+        System.out.printf("size " + priorityQueue.size());
+
+        priorityQueue.poll();
+        System.out.printf("size " + priorityQueue.size());
+
+        priorityQueue.add("a");
+        System.out.printf("size " + priorityQueue.size());
+
     }
 }
