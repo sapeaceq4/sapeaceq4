@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="presentAddress" class="org.om.aec.spring.Address">
+		<constructor-arg type="java.lang.String" value="India"/>
+		<constructor-arg type="java.lang.String" value="Haryana"/>
+		<constructor-arg type="java.lang.String" value="Gurgaon"/>
+	</bean>
+	
+	<bean id="permanentAddress" class="org.om.aec.spring.Address">
+		<constructor-arg type="java.lang.String" value="India"/>
+		<constructor-arg type="java.lang.String" value="Uttar Pradesh"/>
+		<constructor-arg type="java.lang.String" value="Baghpat"/>
+	</bean>
+	
+	<bean id="employee" class="org.om.aec.spring.Employee" init-method="init" destroy-method="shutdown">
+		<constructor-arg type="java.lang.String" value="Om Singh"/>
+		<constructor-arg>
+			<list>
+				<ref bean="presentAddress"/>
+				<ref bean="permanentAddress"/>
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	<bean class="org.om.aec.spring.MyBeanPostProcessor"/>
+	
+</beans>

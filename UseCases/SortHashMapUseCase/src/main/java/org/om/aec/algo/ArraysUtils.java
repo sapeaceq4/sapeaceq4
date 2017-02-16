@@ -16,6 +16,10 @@ public class ArraysUtils
 				secondLargest = firstLargest;
 				firstLargest = value;
 			}
+			else if(value > secondLargest)
+			{
+				secondLargest = value;
+			}
 		}
 		
 		System.out.println("firstLargest="+ firstLargest + " ,secondLargest="+secondLargest);
