@@ -8,6 +8,6 @@ public class ApplicationContextProvider
 {
 	public static ApplicationContext getApplicationContext()
 	{
-		return new ClassPathXmlApplicationContext(new String[]{"dao-context.xml", "application-context.xml"});
+		return new ClassPathXmlApplicationContext(new String[]{"dao-context.xml"});
 	}
 }
