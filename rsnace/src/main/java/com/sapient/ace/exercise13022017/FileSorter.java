@@ -56,7 +56,7 @@ public class FileSorter {
             outFile.write("\n");
 
             int index = findHeadPointer(bufferStringArray, headString);
-            System.out.println("index "+index);
+            System.out.println("index " + index);
 
             String line;
             if ((line = br[index].readLine()) != null) {
@@ -72,8 +72,12 @@ public class FileSorter {
 
             complete = checkIfallNull(br);
 
-            if (complete)
+            if (complete) {
+                while ((headString = mergerQ.poll()) != null) {
+                    outFile.write(headString);
+                }
                 break;
+            }
 
         }
         return outputFile;
@@ -83,7 +87,8 @@ public class FileSorter {
         int bufferSize = 1024;
         for (int i = 0; i < br.length; i++) {
             br[i].mark(bufferSize);
-            if (br[i].readLine() != null) {
+            char[] buf = new char[bufferSize];
+            if (br[i].read(buf)>=1) {
                 br[i].reset();
                 return false;
             }
@@ -132,7 +137,7 @@ public class FileSorter {
                     tmplist.add(line);
                     currentblocksize += line.length();
                     if (currentblocksize >= blocksize) {
-                        System.out.println("bytes written "+currentblocksize);
+                        System.out.println("bytes written " + currentblocksize);
                         files.add(sortandcreatetemp(tmplist));
                         tmplist.clear();
                         currentblocksize = 0;
