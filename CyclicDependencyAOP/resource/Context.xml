@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean id="emp" class="org.rohit.spring.Employee">
+		<property name="name" value="rohti"></property>
+		<property name="id" value="126952"></property>
+	</bean>
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/AceRohit"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="admin"></property>
+	</bean>
+	<bean id="template" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<bean id="employeeDao" class="org.rohit.spring.dao.EmployeeDao"
+		autowire="byName">
+	</bean>
+	<aop:config>
+		<aop:aspect id="empAspect" ref="aspect">
+			<aop:pointcut expression="execution(* org.rohit.spring.dao.EmployeeDao.*(..))" id="pref" />
+			<aop:before method="runBefor" pointcut-ref="pref"/>
+			<aop:after method="runAfter" pointcut-ref="pref"/>
+			<aop:after-returning method="afterReturning" pointcut-ref="pref"/>
+			<aop:after-throwing method="onThrow" pointcut-ref="pref"/>
+			
+		</aop:aspect>
+	</aop:config>
+
+	<bean id="aspect" class="org.rohit.spring.aop.EmployeeAOP"></bean>
+</beans>
