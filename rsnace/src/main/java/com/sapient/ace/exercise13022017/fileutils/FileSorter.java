@@ -1,10 +1,7 @@
 package com.sapient.ace.exercise13022017.fileutils;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  * Created by Ravdeep Singh on 2/13/2017.
@@ -19,7 +16,7 @@ public class FileSorter {
 //        int sizeOfChunk = (int) (sizeOfInputfileInKB / 10) + 1;
 //        int sizeOfChunk = (int) (sizeOfInputfileInKB / 10) ;
         System.out.println("sizeOfInputfileInKB " + sizeOfInputfileInKB + "sizeOfChunk: " + 102400);
-        List<File> tempFiles = readInputFileAndCreateSortedChunk(inputFile, /*102400*/1024);
+        List<File> tempFiles = readInputFileAndCreateSortedChunk(inputFile, /*102400*/1024 * 10);
         System.out.println(tempFiles.size());
         outPutFile = nWayMerge(tempFiles, inputFile);
 
@@ -45,17 +42,32 @@ public class FileSorter {
             String qString = reader.readLine().trim();
             bufferStringArray[i] = qString;
             mergerQ.add(qString);
-            System.out.println("init q size " + mergerQ.size());
         }
         boolean complete = false;
+        int lineCount = 0;
         while (true) {
             String headString;
             headString = mergerQ.poll();
-            if (headString == null)
+            System.out.println("linecount " + lineCount++ + " head string " + headString + " Q size " + mergerQ.size());
+
+            complete = checkIfAllNull(br);
+
+            if (complete) {
+                System.out.println("-------------Completion------------");
+                System.out.println("Qsize :" + mergerQ.size());
+                System.out.println(mergerQ.size());
+                System.out.println("BufferString Array " + Arrays.toString(bufferStringArray));
+
+                while ((headString = mergerQ.poll()) != null) {
+                    outFile.write(headString);
+                    System.out.println("Qsize " + mergerQ.size());
+                }
                 break;
+            }
+//            if (headString != null) {
             outFile.write(headString);
             outFile.newLine();
-//            outFile.write("\r");
+//            }
             int index = findHeadPointer(bufferStringArray, headString);
 
             String line;
@@ -64,34 +76,26 @@ public class FileSorter {
                 bufferStringArray[index] = line.trim();
             }
 
-            complete = checkIfallNull(br);
-            if (complete) {
-                while ((headString = mergerQ.poll()) != null) {
-                    outFile.write(headString);
-                    System.out.println("Qsize " + mergerQ.size());
-                }
-                break;
-            }
+
         }
         return outputFile;
     }
 
-    private boolean checkIfallNull(BufferedReader[] br) throws IOException {
-//        int bufferSize = 1024;
-        boolean flag = true;
+    private boolean checkIfAllNull(BufferedReader[] br) throws IOException {
+        int bufferSize = 1024;
+        boolean flag = false;
         int i = 0;
         for (; i < br.length; i++) {
-//            br[i].mark(bufferSize);
-//            char[] buf = new char[bufferSize];
-//            if (br[i].read(buf)>=1) {
-            if (br[i].ready()) {
-//                br[i].reset();
-                flag = false;
+            br[i].mark(bufferSize);
+            char[] buf = new char[bufferSize];
+            if (br[i].read(buf)>=1) {
+//            if (br[i].ready()) {
+                br[i].reset();
+                flag = true;
                 break;
             }
 
         }
-        System.out.println("Complete flag" + flag + i);
         return flag;
     }
 
@@ -135,7 +139,7 @@ public class FileSorter {
                     tmplist.add(line);
                     currentblocksize += line.length();
                     if (currentblocksize >= blocksize) {
-                        System.out.println("bytes written " + currentblocksize);
+//                        System.out.println("bytes written " + currentblocksize);
                         files.add(sortandcreatetemp(tmplist));
                         tmplist.clear();
                         currentblocksize = 0;

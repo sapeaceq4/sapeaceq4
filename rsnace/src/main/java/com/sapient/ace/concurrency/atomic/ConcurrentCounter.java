@@ -42,9 +42,9 @@ class MyCounterTask implements Runnable {
 
     public void run() {
         for (int x = 0; x < 10; x++) {
-            System.out.println("Executing thread " + Thread.currentThread().getName());
+//            System.out.println("Executing thread " + Thread.currentThread().getName());
             counter.incrementCount();
-            System.out.println("Counter value is " + counter.getCount());
+            System.out.println("Counter value is " + counter.getCount()+" "+Thread.currentThread().getName());
         }
     }
 }
