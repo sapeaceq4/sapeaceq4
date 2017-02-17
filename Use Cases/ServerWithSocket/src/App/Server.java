@@ -10,27 +10,21 @@ import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 public class Server {
-
 	static Executor pool = Executors.newFixedThreadPool(5);
 
 	public static void main(String[] args) throws IOException {
-
 		ServerSocket socket = new ServerSocket(9000);
-
 		while (true) {
 
 			final Socket s = socket.accept();
 			Runnable r = new Runnable() {
-
 				@Override
 				public void run() {
 					dowork(s);
-
 				}
 			};
 			pool.execute(r);
 		}
-
 	}
 
 	static void dowork(Socket s) {
@@ -39,10 +33,8 @@ public class Server {
 			String result = new BufferedReader(new InputStreamReader(
 					s.getInputStream())).lines().collect(
 					Collectors.joining("\n"));
-
 			System.out.println(result);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

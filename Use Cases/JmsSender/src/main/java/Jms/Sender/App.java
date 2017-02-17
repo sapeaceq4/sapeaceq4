@@ -43,6 +43,7 @@ public class App {
 			nextMsg = sc.nextLine();
 			if ("stop".equals(nextMsg)) {
 				stop = false;
+				break;
 			}
 			msg.setText(nextMsg);
 			sender.send(msg);
