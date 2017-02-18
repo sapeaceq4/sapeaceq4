@@ -2,62 +2,32 @@ package com.sapient.ace.concurrency.DownloadManager;
 
 import java.util.Observable;
 import java.util.Observer;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by Ravdeep Singh on 2/17/2017.
  */
 
-public class DownloadManager implements Observer, Runnable {
-
-    //implement listener
-    BlockingQueue<DownloadItem> queue = new LinkedBlockingQueue<>();
+public class DownloadManager implements Observer {
+    Lock lock = new ReentrantLock();
 
     @Override
     public void update(Observable o, Object arg) {
+        lock.lock();
         DownloadItem item = (DownloadItem) arg;
-/*
         System.out.println("------------- Download Summary --------------");
-        System.out.println("Download Status " + item.getCompletionStatus());
-        System.out.println("Download FileName " + item.getFileName());
-        System.out.println("Download " + item.getLinkName());
-        if (item.getCompletionStatus() == 100) {
-//            System.out.println("Download Time Taken " + item.getTimeTaken());
-//            System.out.println("Download Time Taken " + TimeUnit.SECONDS.toSeconds(item.getTimeTaken()));
-            System.out.println("Download Time Taken " + TimeUnit.MINUTES.convert(item.getTimeTaken(), TimeUnit.NANOSECONDS));
+        System.out.println("Download Item:  " + Thread.currentThread().getName());
+        System.out.println("Download Status: " + item.getCompletionStatus() + "%");
+        System.out.println("Download FileName: " + item.getFileName());
+        System.out.println("Download URL :" + item.getLinkName());
+        if (item.isFinished()) {
+            System.out.println("Download Time Taken " + item.getTimeTaken() + " seconds");
+            System.out.println("Download Size :" + item.getSize() + " KB");
         }
-//        System.out.println("Download Time Taken " + TimeUnit.MILLISECONDS.toMinutes(((DownloadItem) arg).getTimeTaken()));
-        */
-        try {
-            queue.put(item);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        System.out.println("------------- Summary Finished --------------");
+        lock.unlock();
 
     }
 
-    @Override
-    public void run() {
-        System.out.println("------------- Download Summary --------------");
-        while (true) {
-            try {
-                DownloadItem item = queue.take();
-                System.out.println("Download Status " + item.getCompletionStatus());
-                System.out.println("Download FileName " + item.getFileName());
-                System.out.println("Download " + item.getLinkName());
-                if (item.getCompletionStatus() == 100) {
-//            System.out.println("Download Time Taken " + item.getTimeTaken());
-//            System.out.println("Download Time Taken " + TimeUnit.SECONDS.toSeconds(item.getTimeTaken()));
-                    System.out.println("Download Time Taken " + TimeUnit.MINUTES.convert(item.getTimeTaken(), TimeUnit.NANOSECONDS));
-                }
-//        System.out.println("Download Time Taken " + TimeUnit.MILLISECONDS.toMinutes(((DownloadItem) arg).getTimeTaken()));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-    }
 }

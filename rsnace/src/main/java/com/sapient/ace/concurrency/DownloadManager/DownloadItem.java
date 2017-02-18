@@ -3,14 +3,23 @@ package com.sapient.ace.concurrency.DownloadManager;
 /**
  * Created by Ravdeep Singh on 2/17/2017.
  */
+
 public class DownloadItem {
 
     private String linkName;
-
+    private boolean isFinished;
     private String fileName;
     private int size;
     private int completionStatus;
     private long timeTaken;
+
+    public boolean isFinished() {
+        return isFinished;
+    }
+
+    public void setFinished(boolean finished) {
+        isFinished = finished;
+    }
 
     public DownloadItem(String linkName) {
         this.linkName = linkName;

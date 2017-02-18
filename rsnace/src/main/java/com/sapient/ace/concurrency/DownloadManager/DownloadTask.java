@@ -40,25 +40,27 @@ public class DownloadTask extends Observable implements Runnable {
     @Override
     public void run() {
         int randomNum;
-        mark.get().setFileName("downLoadLink-" +Thread.currentThread().getName() );
+        mark.get().setFileName("downloadedFile-" + Thread.currentThread().getName());
+        mark.get().setLinkName("http://ravdeep:8080/" + Thread.currentThread().getName());
+
         mark.get().setTimeTaken(System.nanoTime());
         while (mark.get().getCompletionStatus() < 100) {
-            randomNum = 1 + (int) (Math.random() * 20);
+            randomNum = 1 + (int) (Math.random() * 10);
             int value = mark.get().getCompletionStatus() + randomNum;
             mark.get().setCompletionStatus(value < 100 ? value : 100);
             setValue();
-            System.out.println("status " + mark.get().getCompletionStatus());
             try {
                 Thread.sleep(TimeUnit.SECONDS.toMillis(randomNum));
-//                Thread.sleep(TimeUnit.SECONDS.toMillis(1));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        long timeTaken = System.nanoTime() - mark.get().getTimeTaken();
-        mark.get().setTimeTaken(timeTaken);
+        long timeTaken = (System.nanoTime() - mark.get().getTimeTaken());
+        long seconds = TimeUnit.NANOSECONDS.toSeconds(timeTaken);
 
-        mark.get().setSize((int) (timeTaken/1024));
-
+        mark.get().setTimeTaken(seconds);
+        mark.get().setSize((int) (seconds * 8));
+        mark.get().setFinished(true);
+        setValue();
     }
 }
