@@ -1,4 +1,4 @@
-package com.sapient.ace.concurrency.DownloadManager;
+package com.sapient.ace.concurrency.downloadmanager;
 
 import java.util.Observable;
 import java.util.Observer;

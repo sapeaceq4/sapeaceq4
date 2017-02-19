@@ -1,4 +1,4 @@
-package com.sapient.ace.concurrency.DownloadManager;
+package com.sapient.ace.concurrency.downloadmanager;
 
 /**
  * Created by Ravdeep Singh on 2/17/2017.

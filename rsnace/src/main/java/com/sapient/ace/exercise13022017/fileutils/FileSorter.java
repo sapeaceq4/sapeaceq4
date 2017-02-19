@@ -28,29 +28,34 @@ public class FileSorter {
         int numberOfTempFiles = tempFiles.size();
         System.out.println();
         File outputFile = new File(inputFile.getParent() + "/output.txt");
-        BufferedReader br[] = new BufferedReader[numberOfTempFiles];
+        Scanner scanners[] = new Scanner[numberOfTempFiles];
         BufferedWriter outFile = new BufferedWriter(new FileWriter(outputFile));
         PriorityQueue<String> mergerQ = new PriorityQueue<String>();
 
         for (int i = 0; i < numberOfTempFiles; i++) {
-            br[i] = new BufferedReader(new FileReader(tempFiles.get(i)));
+            scanners[i] = new Scanner(tempFiles.get(i));
         }
         String[] bufferStringArray = new String[numberOfTempFiles];
 
         for (int i = 0; i < numberOfTempFiles; i++) {
-            BufferedReader reader = br[i];
-            String qString = reader.readLine().trim();
+            Scanner scanner = scanners[i];
+            String qString = scanner.nextLine().trim();
             bufferStringArray[i] = qString;
             mergerQ.add(qString);
         }
         boolean complete = false;
         int lineCount = 0;
-        while (true) {
-            String headString;
-            headString = mergerQ.poll();
-            System.out.println("linecount " + lineCount++ + " head string " + headString + " Q size " + mergerQ.size());
 
-            complete = checkIfAllNull(br);
+        while (true) {
+            String headString = mergerQ.poll();
+//            System.out.println("linecount " + lineCount++ + " head string " + headString + " Q size " + mergerQ.size());
+            if (headString != null) {
+                outFile.write(headString);
+                outFile.newLine();
+            }
+            complete = checkIfAllNull(scanners);
+
+            System.out.println("complete status " + complete + "q size" + mergerQ.size());
 
             if (complete) {
                 System.out.println("-------------Completion------------");
@@ -64,37 +69,27 @@ public class FileSorter {
                 }
                 break;
             }
-//            if (headString != null) {
-            outFile.write(headString);
-            outFile.newLine();
-//            }
+
             int index = findHeadPointer(bufferStringArray, headString);
 
-            String line;
-            if ((line = br[index].readLine()) != null) {
-                mergerQ.add(line.trim());
-                bufferStringArray[index] = line.trim();
+            if (scanners[index].hasNextLine()) {
+                String line = scanners[index].nextLine().trim();
+                mergerQ.add(line);
+                bufferStringArray[index] = line;
             }
-
-
         }
         return outputFile;
     }
 
-    private boolean checkIfAllNull(BufferedReader[] br) throws IOException {
-        int bufferSize = 1024;
-        boolean flag = false;
+    private boolean checkIfAllNull(Scanner[] scan) throws IOException {
+        boolean flag = true;
         int i = 0;
-        for (; i < br.length; i++) {
-            br[i].mark(bufferSize);
-            char[] buf = new char[bufferSize];
-            if (br[i].read(buf)>=1) {
-//            if (br[i].ready()) {
-                br[i].reset();
-                flag = true;
-                break;
+        for (; i < scan.length; i++) {
+            System.out.println("buffer check " + i + " " + scan[i].hasNextLine());
+            if (scan[i].hasNextLine()) {
+                flag = false;
+                return flag;
             }
-
         }
         return flag;
     }
@@ -102,9 +97,10 @@ public class FileSorter {
     private int findHeadPointer(String[] bufferStringArray, String headString) {
 
         for (int i = 0; i < bufferStringArray.length; i++) {
-            if (bufferStringArray[i].equalsIgnoreCase(headString))
+            if (bufferStringArray[i].equalsIgnoreCase(headString)) {
+                System.out.println("filepointer is " + i);
                 return i;
-
+            }
         }
         return -1;
     }
@@ -112,7 +108,7 @@ public class FileSorter {
 
     public static File sortandcreatetemp(List<String> tmplist) throws IOException {
         Collections.sort(tmplist);
-        File newtmpfile = File.createTempFile("temp", ".txt");
+        File newtmpfile = File.createTempFile("filesorter", ".txt");
 //        newtmpfile.deleteOnExit();
         BufferedWriter fbw = new BufferedWriter(new FileWriter(newtmpfile));
         try {

@@ -1,28 +1,19 @@
 package com.sapient.ace.Utils;
 
-import java.util.PriorityQueue;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Ravdeep Singh on 2/15/2017.
  */
 public class Test {
-    public static void main(String[] args) {
-        PriorityQueue<String> priorityQueue = new PriorityQueue<>();
+    public static void main(String[] args) throws InterruptedException {
+        long start = System.nanoTime();
+        Thread.currentThread().sleep(TimeUnit.SECONDS.toMillis(1));
 
-        priorityQueue.add("a");
-        System.out.printf("size " + priorityQueue.size());
+        long end = System.nanoTime();
 
-        priorityQueue.add("a");
-        System.out.printf("size " + priorityQueue.size());
+        System.out.printf("elapsed " + TimeUnit.NANOSECONDS.toSeconds(2002947248L));
 
-        priorityQueue.poll();
-        System.out.printf("size " + priorityQueue.size());
-
-        priorityQueue.poll();
-        System.out.printf("size " + priorityQueue.size());
-
-        priorityQueue.add("a");
-        System.out.printf("size " + priorityQueue.size());
 
     }
 }
