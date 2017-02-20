@@ -8,9 +8,6 @@
     <artifactId>rsn-ace</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>rsnspring</module>
-    </modules>
     <name>rsn-ace</name>
     <repositories>
         <!-- Repository for ORACLE ojdbc6. -->
