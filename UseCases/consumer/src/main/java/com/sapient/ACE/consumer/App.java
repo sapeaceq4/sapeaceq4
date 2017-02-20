@@ -53,6 +53,7 @@ public class App implements MessageListener
  
     public void onMessage(Message message)
     {
+    
         try
         {
             if (message instanceof TextMessage)
