@@ -9,7 +9,7 @@ public class DownloadClient {
         DownloadManager manager = new DownloadManager();
         Thread threads[] = new Thread[count];
         for (int i = 0; i < count; i++) {
-            DownloadTask downloadTask = new DownloadTask("LINK-" + i);
+            com.sapient.ace.concurrency.downloadmanager.DownloadTask downloadTask = new DownloadTask("LINK-" + i);
             downloadTask.addObserver(manager);
             threads[i] = new Thread(downloadTask, "downloader-thread-" + i);
         }
