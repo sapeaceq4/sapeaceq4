@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="resource"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/rrawa9/Downloads/javax.jms-1.1.jar/javax.jms-1.1.jar"/>
+	<classpathentry kind="lib" path="D:/apache-activemq-5.14.1-bin/apache-activemq-5.14.1/activemq-all-5.14.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
