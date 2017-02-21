@@ -12,15 +12,37 @@ public class Rating implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rating_id_seq")
     @SequenceGenerator(name = "rating_id_seq", sequenceName = "RATING_ID_SEQ", allocationSize = 100)
-    private Integer id;
+    private Long id;
     private float rating;
-    private User userId;
+    private long userId;
 
-    public Integer getId() {
+    private long productId;
+
+
+    public Rating() {
+    }
+
+    public Rating(Long id, float rating, long userId, long productId) {
+        this.id = id;
+        this.rating = rating;
+        this.userId = userId;
+        this.productId = productId;
+    }
+
+    /*
+
+    public Rating(float rating, long userId, long productId) {
+        this.rating = rating;
+        this.userId = userId;
+        this.productId = productId;
+    }
+*/
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -32,11 +54,11 @@ public class Rating implements Serializable {
         this.rating = rating;
     }
 
-    public User getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(User userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 }

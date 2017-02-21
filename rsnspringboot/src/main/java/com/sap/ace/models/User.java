@@ -13,11 +13,23 @@ public class User implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
     @SequenceGenerator(name = "user_id_seq", sequenceName = "USER_ID_SEQ", allocationSize = 100)
-    private Integer id;
+    private long id;
     private String userId;
     private String fName;
     private String lName;
     private String city;
+
+
+    public User() {
+    }
+
+    public User(long id, String userId, String fName, String lName, String city) {
+        this.id = id;
+        this.userId = userId;
+        this.fName = fName;
+        this.lName = lName;
+        this.city = city;
+    }
 
     public String getUserId() {
         return userId;
