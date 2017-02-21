@@ -1,3 +1,5 @@
+package com.sap.ace.models;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
