@@ -1,0 +1,7 @@
+security:
+  basic:
+    enabled: true
+  user:
+    name: kirti
+    password: dhar
+    role: admin
