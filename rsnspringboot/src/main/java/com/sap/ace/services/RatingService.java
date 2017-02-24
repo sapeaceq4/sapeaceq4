@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * Created by Ravdeep Singh on 2/21/2017.
  */
@@ -25,7 +27,7 @@ public class RatingService implements GenericService<Rating, Long> {
         return null;
     }
 
-    public Iterable<Rating> getRating(long id) {
-        return  ratingRepository.getRatingById(id);
+    public List<Rating> readAll(long id) {
+        return  ratingRepository.getRatingByProductId(id);
     }
 }

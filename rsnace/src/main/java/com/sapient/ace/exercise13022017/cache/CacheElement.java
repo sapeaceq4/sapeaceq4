@@ -9,9 +9,23 @@ public class CacheElement<T> {
     long lastAccessTime;
     long creationTime;
     int hitcount;
+    int TTL;
+
+    public int getTTL() {
+        return TTL;
+    }
+
+    public void setTTL(int TTL) {
+        this.TTL = TTL;
+    }
 
     public CacheElement(T element) {
         this.element = element;
+    }
+
+    public CacheElement(T element, int TTL) {
+        this.element = element;
+        this.TTL = TTL;
     }
 
     public T getElement() {

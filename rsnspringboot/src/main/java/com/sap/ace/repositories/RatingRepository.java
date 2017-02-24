@@ -6,6 +6,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created by Ravdeep Singh on 2/21/2017.
  */
@@ -14,5 +16,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface RatingRepository extends CrudRepository<Rating, Long> {
 
-    public Iterable<Rating> getRatingById(long id);
+    public List<Rating> getRatingByProductId(long id);
 }

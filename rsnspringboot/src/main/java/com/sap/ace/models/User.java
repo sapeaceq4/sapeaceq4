@@ -31,6 +31,13 @@ public class User implements Serializable{
         this.city = city;
     }
 
+    public User(String userId, String fName, String lName, String city) {
+        this.userId = userId;
+        this.fName = fName;
+        this.lName = lName;
+        this.city = city;
+    }
+
     public String getUserId() {
         return userId;
     }
