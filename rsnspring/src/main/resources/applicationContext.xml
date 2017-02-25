@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="item" class="com.sapient.rsn.ace.spring.core.bean.Item">
+        <property name="name" value="BoomBox"/>
+    </bean>
+
+    <bean id="student" class="com.sapient.rsn.ace.spring.core.bean.Student" autowire="byType">
+        <!--<constructor-arg value="Box" />
+        <constructor-arg value="18"/>-->
+        <property name="name" value="BoomBox"/>
+        <property name="age" value="20"/>
+        <!--autowired-->
+        <!--<property name="address" ref="address"/>-->
+    </bean>
+    <bean id="teacher" class="com.sapient.rsn.ace.spring.core.bean.Teacher">
+        <property name="name" value="BoomBox"/>
+    </bean>
+    <!--
+        <bean id="address" class="com.sapient.rsn.ace.spring.core.bean.Address">
+            <property name="streetName" value="Fateh Nagar"/>
+            <property name="cityName" value="New Delhi"/>
+            <property name="stateName" value="Delhi"/>
+            <property name="country" value="India"/>
+            <property name="pincode" value="110018"/>
+        </bean>
+    -->
+
+    <bean id="sample" class="com.sapient.rsn.ace.spring.core.bean.SampleBean" lazy-init="true">
+        <constructor-arg value="14" type="int"/>
+    </bean>
+
+    <bean id="springbook" class="com.sapient.rsn.ace.spring.core.factory.BookFactory"
+          factory-method="createBookByAuthor">
+        <constructor-arg value="craig"/>
+    </bean>
+    <bean id="hadoopbook" class="com.sapient.rsn.ace.spring.core.factory.BookFactory"
+          factory-method="createBookByAuthor">
+        <constructor-arg value="chak lam"/>
+    </bean>
+
+    <bean id="hadoopbook2" class="com.sapient.rsn.ace.spring.core.factory.BookFactoryBean">
+        <constructor-arg value="chak lam"/>
+    </bean>
+    <bean id="employee" class="com.sapient.rsn.ace.spring.core.bean.Employee" />
+    <bean id="depart" class="com.sapient.rsn.ace.spring.core.bean.Department" />
+    <bean id="client" class="com.sapient.rsn.ace.spring.core.bean.Client" />
+
+    <context:annotation-config></context:annotation-config>
+    <context:component-scan base-package="com.sapient.rsn.ace.spring.core.components"/>
+</beans>
