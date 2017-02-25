@@ -1,5 +1,8 @@
 package com.sap.ace.models;
 
+import org.hibernate.annotations.Formula;
+import org.springframework.data.jpa.repository.*;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -16,6 +19,9 @@ public class Product implements Serializable {
     private String name;
     private String color;
     private int psize;
+
+    @Transient
+    /*@Formula("(SELECT AVG(rating) FROM TBL_RATING  pr where pr.product_id=id)")*/
     private double avgRating;
 
     public Product() {
@@ -28,6 +34,12 @@ public class Product implements Serializable {
         this.color = color;
         this.psize = psize;
         this.avgRating = avgRating;
+    }
+
+    public Product(String name, String color, int psize) {
+        this.name = name;
+        this.color = color;
+        this.psize = psize;
     }
 
     @Override
@@ -73,10 +85,12 @@ public class Product implements Serializable {
         this.psize = psize;
     }
 
+    @Formula("(SELECT AVG(rating) FROM TBL_RATING  pr where pr.product_id=id)")
     public double getAvgRating() {
         return avgRating;
     }
 
+    @Formula("(SELECT AVG(rating) FROM TBL_RATING  pr where pr.product_id=id)")
     public void setAvgRating(double avgRating) {
         this.avgRating = avgRating;
     }

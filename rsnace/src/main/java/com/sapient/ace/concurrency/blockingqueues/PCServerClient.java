@@ -1,8 +1,6 @@
 package com.sapient.ace.concurrency.blockingqueues;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * Created by Ravdeep Singh on 2/10/2017.
@@ -10,12 +8,21 @@ import java.util.concurrent.TimeUnit;
 public class PCServerClient {
     public static void main(String[] args) throws InterruptedException {
         BlockingQueue<QueueElement> queue = new LinkedBlockingQueue<QueueElement>();
-        Thread producer = new Thread(new Producer(queue));
-        Thread consumer = new Thread(new Consumer(queue));
+        ExecutorService executorService = Executors.newFixedThreadPool(20);
+        Producer []producers  = new Producer[10];
+        Consumer []consumers  = new Consumer[10];
 
-        producer.start();
-        consumer.start();
+        for (int i = 0; i <10 ; i++) {
+            producers[i] = new Producer(queue);
+            consumers[i] = new Consumer(queue);
+        }
 
-        Thread.sleep(TimeUnit.SECONDS.toMillis(20));
+        for (int i = 0; i <10 ; i++) {
+            executorService.execute(producers[i]);
+            executorService.execute(consumers[i]);
+        }
+
+        executorService.awaitTermination(2, TimeUnit.MINUTES);
+        executorService.shutdown();
     }
 }

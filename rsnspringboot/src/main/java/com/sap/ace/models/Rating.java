@@ -6,7 +6,7 @@ import java.io.Serializable;
 /**
  * Created by Ravdeep Singh on 2/20/2017.
  */
-@Entity
+@Entity(name = "Rating")
 @Table(name = "TBL_RATING")
 public class Rating implements Serializable {
     @Id
@@ -15,9 +15,7 @@ public class Rating implements Serializable {
     private Long id;
     private float rating;
     private long userId;
-
     private long productId;
-
 
     public Rating() {
     }
@@ -29,14 +27,11 @@ public class Rating implements Serializable {
         this.productId = productId;
     }
 
-    /*
-
     public Rating(float rating, long userId, long productId) {
         this.rating = rating;
         this.userId = userId;
         this.productId = productId;
     }
-*/
 
     public Long getId() {
         return id;

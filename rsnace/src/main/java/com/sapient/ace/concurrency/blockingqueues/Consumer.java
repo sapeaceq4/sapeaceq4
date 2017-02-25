@@ -17,9 +17,10 @@ public class Consumer implements Runnable {
     public void run() {
         try {
             for (int i = 0; i < 100; i++) {
-                Thread.sleep(TimeUnit.SECONDS.toMillis(2));
+
+                Thread.sleep(TimeUnit.SECONDS.toMillis(1 + (int) (Math.random() * 10)));
                 QueueElement element = q.take();
-                System.out.println("Consumer consumed element " + element);
+                System.out.println("Consumer "+Thread.currentThread().getName()+" consumed element " + element);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

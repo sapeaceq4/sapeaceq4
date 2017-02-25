@@ -56,12 +56,5 @@ public class ProductController {
         return new ResponseEntity<ResponseVO>(new ResponseVO("{ \"message\":\"Product Deleted\"}"), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{id}/ratings", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseVO> getRatings(@PathVariable long id) {
-        Iterable<Rating> rating = ratingService.getRating(id);
-        return new ResponseEntity<ResponseVO>(new ResponseVO(rating), HttpStatus.OK);
-    }
-
-
 }
 
