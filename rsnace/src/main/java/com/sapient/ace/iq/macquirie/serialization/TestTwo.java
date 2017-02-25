@@ -1,4 +1,4 @@
-package com.sapient.ace.iq.macquirie;
+package com.sapient.ace.iq.macquirie.serialization;
 
 /**
  * Created by Ravdeep Singh on 23-02-2017.

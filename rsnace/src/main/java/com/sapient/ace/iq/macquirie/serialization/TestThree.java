@@ -1,4 +1,4 @@
-package com.sapient.ace.iq.macquirie;
+package com.sapient.ace.iq.macquirie.serialization;
 
 import java.io.*;
 
