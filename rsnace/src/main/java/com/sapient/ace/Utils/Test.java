@@ -16,7 +16,7 @@ public class Test {
         Thread.currentThread().sleep(TimeUnit.SECONDS.toMillis(1));
 
         long end = System.nanoTime();
-
+            Thread test = new Thread();
         System.out.printf("elapsed " + TimeUnit.NANOSECONDS.toSeconds(2002947248L));
         testlock();
     }

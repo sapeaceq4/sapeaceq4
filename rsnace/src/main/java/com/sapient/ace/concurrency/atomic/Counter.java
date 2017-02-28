@@ -10,7 +10,7 @@ class Counter {
     private AtomicInteger count = new AtomicInteger(0);
 
     public void incrementCount() {
-        count.incrementAndGet();
+        count.getAndIncrement();
     }
 
     public int getCount() {
