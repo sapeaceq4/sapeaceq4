@@ -1,0 +1,1 @@
+This dir contains the exercise given in the hibernate session.
