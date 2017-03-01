@@ -10,7 +10,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class SpringClient {
     public static void main(String[] args) {
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml.bkp");
         System.out.println("-----------------------------------------------");
         Item itemOne = (Item) applicationContext.getBean("item");
         System.out.println(itemOne.getName());
