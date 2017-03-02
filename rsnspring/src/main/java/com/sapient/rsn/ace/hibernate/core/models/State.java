@@ -1,4 +1,4 @@
-package com.sapient.rsn.ace.hibernate.core.model;
+package com.sapient.rsn.ace.hibernate.core.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

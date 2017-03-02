@@ -1,4 +1,4 @@
-package com.sapient.rsn.ace.hibernate.core.model;
+package com.sapient.rsn.ace.hibernate.core.models;
 
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.FetchProfile;
@@ -25,7 +25,7 @@ public class Country implements Serializable {
     @Column(name="name")
     private String name;
 
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="countryId")
     private Set<State> states;
 

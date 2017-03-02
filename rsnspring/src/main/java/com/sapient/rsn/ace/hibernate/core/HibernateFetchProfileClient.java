@@ -1,11 +1,10 @@
-package com.sapient.rsn.ace.hibernate.core.model.Client;
+package com.sapient.rsn.ace.hibernate.core;
 
-import com.sapient.rsn.ace.hibernate.core.model.Country;
-import com.sapient.rsn.ace.hibernate.core.model.State;
+import com.sapient.rsn.ace.hibernate.core.models.Country;
+import com.sapient.rsn.ace.hibernate.core.models.State;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Configuration;
 
 import java.util.HashSet;
@@ -14,7 +13,7 @@ import java.util.Set;
 /**
  * Created by Ravdeep Singh on 01-03-2017.
  */
-public class HibernateClient {
+public class HibernateFetchProfileClient {
     private static final SessionFactory concreteSessionFactory;
 
     static {
@@ -82,15 +81,15 @@ public class HibernateClient {
         Country country = new Country(1, "India", states);
         session.persist(country);
 
-
-        State ss1 = new State(3, 2, "Surrey");
-        State ss2 = new State(4, 2, "MONTREAL");
-        HashSet<State> states2 = new HashSet<>();
-        states2.add(ss1);
-        states2.add(ss2);
-        Country country2 = new Country(2, "CANADA", states2);
-
-        session.persist(country2);
+//
+//        State ss1 = new State(3, 2, "Surrey");
+//        State ss2 = new State(4, 2, "MONTREAL");
+//        HashSet<State> states2 = new HashSet<>();
+//        states2.add(ss1);
+//        states2.add(ss2);
+//        Country country2 = new Country(2, "CANADA", states2);
+//
+//        session.persist(country2);
         session.getTransaction().commit();
         session.close();
     }

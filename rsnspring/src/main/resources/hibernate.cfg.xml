@@ -6,13 +6,12 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
-<<<<<<< HEAD
         <property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521:XE</property>
         <property name="hibernate.connection.password">ravdeep</property>
         <property name="hibernate.connection.username">ravdeep</property>
         <property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>
         <property name="show_sql">true</property>
-        <property name="formal_sql">true</property>
+        <property name="format_sql">true</property>
         <property name="hbm2ddl.auto">create</property>
 
         <mapping class="com.sapient.rsn.ace.hibernate.core.models.ItemSet"/>
@@ -20,18 +19,7 @@
         <mapping class="com.sapient.rsn.ace.hibernate.core.models.Cover"/>
         <mapping class="com.sapient.rsn.ace.hibernate.core.models.Employee"/>
         <mapping class="com.sapient.rsn.ace.hibernate.core.models.Company"/>
+        <mapping class="com.sapient.rsn.ace.hibernate.core.models.Country" />
+        <mapping class="com.sapient.rsn.ace.hibernate.core.models.State" />
     </session-factory>
-
-=======
-        <property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521:xe</property>
-        <property name="hibernate.connection.username">ravdeep</property>
-        <property name="hibernate.connection.password">coder</property>
-        <property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>
-        <property name="show_sql">true</property>
-        <property name="format_sql">true</property>
-        <property name="hbm2ddl.auto">create </property>
-        <mapping class="com.sapient.rsn.ace.hibernate.core.model.Country" />
-        <mapping class="com.sapient.rsn.ace.hibernate.core.model.State" />
-    </session-factory>
->>>>>>> origin/RavdeepSingh
 </hibernate-configuration>
