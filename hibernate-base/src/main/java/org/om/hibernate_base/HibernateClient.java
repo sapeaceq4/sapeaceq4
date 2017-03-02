@@ -3,7 +3,10 @@ package org.om.hibernate_base;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.om.hibernate_base.collections.Product;
+import org.om.hibernate_base.collections.bag.Item;
+import org.om.hibernate_base.collections.list.Company;
+import org.om.hibernate_base.collections.list.Employee;
+import org.om.hibernate_base.collections.set.Product;
 import org.om.hibernate_base.onetoonemapping.Book;
 import org.om.hibernate_base.onetoonemapping.Cover;
 import org.om.hibernate_base.utils.HibernateUtils;
@@ -15,6 +18,29 @@ import org.om.hibernate_base.utils.HibernateUtils;
  */
 public class HibernateClient 
 {
+	private static void saveCompany(Session session)
+	{
+		Company company = new Company("Sapient");
+		company.getEmployees().add("Om");
+		company.getEmployees().add("Depp");
+		session.save(company);
+		
+	}
+	
+	private static Item createDummyItem()
+	{
+		Item item = new Item("Dell Laptop");
+		item.getImages().add("dell-defaut.png");
+		item.getImages().add("dell-red.png");
+		item.getImages().add("dell-orange.png");
+		return item;
+	}
+	
+	private static void saveDummyItem(Session session)
+	{
+        session.save(createDummyItem());
+	}
+	
 	private static Product createDummyProduct()
 	{
 		Product product = new Product("Dell Laptop");
@@ -24,13 +50,8 @@ public class HibernateClient
 		return product;
 	}
 	
-	private static void saveDummyProduct()
+	private static void saveDummyProduct(Session session)
 	{
-		SessionFactory factory = HibernateUtils.getSessionFactory();
-        Session session = factory.openSession();
-        Transaction transaction = session.beginTransaction();
-        session.save(createDummyProduct());
-        transaction.commit();
         session.close();
 	}
 	
@@ -44,25 +65,27 @@ public class HibernateClient
 		return new Cover(coverName);
 	}
 	
-	private static void saveDummyBook()
+	private static void saveDummyBook(Session session)
 	{
 		Book book = createDummyBook("Java");
 		Cover cover = createDummyCover("DummyCover");
 		cover.assignBook(book);
-	
-		SessionFactory factory = HibernateUtils.getSessionFactory();
-        Session session = factory.openSession();
-        Transaction transaction = session.beginTransaction();
         session.save(book);
-        transaction.commit();
-        session.close();
-        
 	}
 	
 	public static void main(String[] args) 
 	{
-		saveDummyProduct();
-		saveDummyBook();
+		SessionFactory factory = HibernateUtils.getSessionFactory();
+        Session session = factory.openSession();
+        Transaction transaction = session.beginTransaction();
+        
+//		saveDummyItem(session);
+//		saveDummyProduct(session);
+//		saveDummyBook(session);
+        saveCompany(session);
+        transaction.commit();
+        session.close();
+        factory.close();
 	}
 }
 

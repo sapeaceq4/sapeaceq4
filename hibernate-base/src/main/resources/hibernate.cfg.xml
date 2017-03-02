@@ -11,10 +11,13 @@
 		<property name="hibernate.connection.password">omsingh</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>
 		<property name="show_sql">true</property>
-		<property name="format_sql">true</property>
+		<!--  <property name="format_sql">true</property>-->
 		<property name="hbm2ddl.auto">create </property>
-		<mapping class="org.om.hibernate_base.collections.Product" />
+		<mapping class="org.om.hibernate_base.collections.set.Product" />
+		<mapping class="org.om.hibernate_base.collections.bag.Item" />
 		<mapping class="org.om.hibernate_base.onetoonemapping.Book" />
 		<mapping class="org.om.hibernate_base.onetoonemapping.Cover" />
+		<mapping class="org.om.hibernate_base.mapping.onetoone.bidirection.Company" />
+		<mapping class="org.om.hibernate_base.mapping.onetoone.bidirection.Employee" />
 	</session-factory>
 </hibernate-configuration>

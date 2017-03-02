@@ -1,32 +1,29 @@
-package org.om.hibernate_base.collections;
+package org.om.hibernate_base.mapping.onetoone.bidirection;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="TBL_PRODUCT")
-public class Product 
+@Table(name="H_TBL_EMPLOYEE")
+public class Employee 
 {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	private String name;
 	
-	@ElementCollection
-	private Set<String> images = new HashSet<>();
+	@OneToOne
+	private Company company;
 	
-	public Product(String name) 
-	{
+	public Employee(String name) {
+		super();
 		this.name = name;
 	}
-
+	
 	public int getId() {
 		return id;
 	}
@@ -35,13 +32,13 @@ public class Product
 		return name;
 	}
 
-	public Set<String> getImages() {
-		return images;
+	public void setCompany(Company company) {
+		this.company = company;
 	}
-
+	
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", images=" + images
-				+ "]";
+		return "Employee [id=" + id + ", name=" + name + "]";
 	}
+	
 }
