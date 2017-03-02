@@ -14,10 +14,9 @@
 		<!--  <property name="format_sql">true</property>-->
 		<property name="hbm2ddl.auto">create </property>
 		<mapping class="org.om.hibernate_base.collections.set.Product" />
-		<mapping class="org.om.hibernate_base.collections.bag.Item" />
+		<mapping class="org.om.hibernate_base.collections.embeded.Item" />
 		<mapping class="org.om.hibernate_base.onetoonemapping.Book" />
 		<mapping class="org.om.hibernate_base.onetoonemapping.Cover" />
-		<mapping class="org.om.hibernate_base.mapping.onetoone.bidirection.Company" />
-		<mapping class="org.om.hibernate_base.mapping.onetoone.bidirection.Employee" />
+		<mapping class="org.om.hibernate_base.collections.list.Company" />
 	</session-factory>
 </hibernate-configuration>

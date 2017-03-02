@@ -1,13 +1,14 @@
-package org.om.hibernate_base.collections.list;
+package org.om.hibernate_base.mapping.manytomany.unidirection;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.ElementCollection;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -19,20 +20,25 @@ public class Company
 	private int id;
 	private String name;
 	
-	@ElementCollection
+	@ManyToMany(cascade=CascadeType.ALL, mappedBy="companies")
 	private List<Employee> employees = new ArrayList<>();
 	
+	public Company()
+	{
+		
+	}
 	public Company(String name)
 	{
-		this.name = name;		
+		super();
+		this.name = name;
+	}
+
+	public int getId() {
+		return id;
 	}
 
 	public String getName() {
 		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public List<Employee> getEmployees() {
@@ -40,8 +46,10 @@ public class Company
 	}
 
 	@Override
-	public String toString() {
-		return "Company [id=" + id + ", name=" + name + ", employees="
+	public String toString() 
+	{
+		return "Comany [id=" + id + ", name=" + name + ", employees="
 				+ employees + "]";
 	}
+	
 }

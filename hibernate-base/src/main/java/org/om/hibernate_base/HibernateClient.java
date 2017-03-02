@@ -4,8 +4,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.om.hibernate_base.collections.bag.Item;
-import org.om.hibernate_base.collections.list.Company;
-import org.om.hibernate_base.collections.list.Employee;
 import org.om.hibernate_base.collections.set.Product;
 import org.om.hibernate_base.onetoonemapping.Book;
 import org.om.hibernate_base.onetoonemapping.Cover;
@@ -18,15 +16,7 @@ import org.om.hibernate_base.utils.HibernateUtils;
  */
 public class HibernateClient 
 {
-	private static void saveCompany(Session session)
-	{
-		Company company = new Company("Sapient");
-		company.getEmployees().add("Om");
-		company.getEmployees().add("Depp");
-		session.save(company);
-		
-	}
-	
+
 	private static Item createDummyItem()
 	{
 		Item item = new Item("Dell Laptop");
@@ -82,7 +72,7 @@ public class HibernateClient
 //		saveDummyItem(session);
 //		saveDummyProduct(session);
 //		saveDummyBook(session);
-        saveCompany(session);
+        
         transaction.commit();
         session.close();
         factory.close();
