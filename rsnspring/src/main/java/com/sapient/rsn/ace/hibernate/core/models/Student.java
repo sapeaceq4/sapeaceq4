@@ -1,11 +1,14 @@
-package com.sapient.rsn.ace.hibernate.core.one2one.model;
+package com.sapient.rsn.ace.hibernate.core.models;
 
 import javax.persistence.*;
 
 /**
- * Created by Ravdeep Singh on 3/2/2017.
+ * Created by Ravdeep Singh on 02-03-2017.
  */
+@Entity
+@Table(name = "STUDENT")
 public class Student {
+
     private long studentId;
     private String studentName;
     private Address studentAddress;
@@ -46,4 +49,5 @@ public class Student {
     public void setStudentAddress(Address studentAddress) {
         this.studentAddress = studentAddress;
     }
+
 }
