@@ -2,6 +2,7 @@ package com.sapient.ace.Utils;
 
 import com.sapient.ace.spring.model.Employee;
 
+import java.math.BigDecimal;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
@@ -23,7 +24,28 @@ public class Test {
             Thread test = new Thread();
         System.out.printf("elapsed " + TimeUnit.NANOSECONDS.toSeconds(2002947248L));
         testlock();*/
+/*
+        testIntern();
+        testTrreMap();
+*/
 
+        double d = round(12342.123456789,5);
+        System.out.println(d);
+
+    }
+
+    private static double round(double d, int decimalPlace) {
+        BigDecimal bd = new BigDecimal(d);
+        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        return bd.doubleValue();
+    }
+
+    private static void testTrreMap() {
+        Map<Employee,String> map = new TreeMap();
+        map.put(null,"string");
+    }
+
+    private static void testIntern() {
         String str1 = new String("Test");
         System.out.println(str1.intern());
 
@@ -48,12 +70,6 @@ public class Test {
         if ( s1 == s5 ){
             System.out.println("s1 and s5 are same" );  // 4.
         }
-
-        Map<Employee,String> map = new TreeMap();
-        map.put(null,"string");
-
-
-
     }
 
     private static void testlock() {

@@ -7,7 +7,7 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "ADDRESS")
+@Table(name = "H_TBL_ADDRESS")
 public class Address {
 
     private long addressId;

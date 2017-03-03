@@ -12,7 +12,7 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name = "Country")
+@Table(name = "H_TBL_COUNTRY")
 @FetchProfile(name = "country_states", fetchOverrides = {
         @FetchProfile.FetchOverride(entity = Country.class, association = "states", mode = FetchMode.JOIN)
 })

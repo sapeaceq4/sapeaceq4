@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 @Entity
-@Table(name = "state")
+@Table(name = "H_TBL_STATE")
 public class State {
     @Id
     @Column(name = "id")
