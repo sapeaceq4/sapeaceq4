@@ -6,7 +6,7 @@ import javax.persistence.*;
  * Created by Ravdeep Singh on 02-03-2017.
  */
 @Entity
-@Table(name = "STUDENT")
+@Table(name = "H_TBL_STUDENT")
 public class Student {
 
     private long studentId;
