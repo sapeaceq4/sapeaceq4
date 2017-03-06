@@ -13,11 +13,29 @@ import java.util.concurrent.locks.ReentrantLock;
  * Created by Ravdeep Singh on 2/15/2017.
  */
 public class Test {
+<<<<<<< Updated upstream
     private static Lock lock = new ReentrantLock();
     private static int i;
 
     public static void main(String[] args) throws InterruptedException {
       /*  long start = System.nanoTime();
+=======
+    public Test() {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        Test XOB = new Test();
+
+        if (XOB == null)
+            System.out.println(true);
+        System.out.println(XOB);
+        long start = System.nanoTime();
+>>>>>>> Stashed changes
         Thread.currentThread().sleep(TimeUnit.SECONDS.toMillis(1));
 
         long end = System.nanoTime();
