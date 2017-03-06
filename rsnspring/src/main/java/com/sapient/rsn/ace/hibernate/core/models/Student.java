@@ -42,6 +42,7 @@ public class Student {
     }
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "STUDENT_ADDRESS")
     public Address getStudentAddress() {
         return this.studentAddress;
     }
