@@ -1,9 +1,6 @@
-package com.sapient.rsn.ace.hibernate.core.mappings.one2one;
+package com.sapient.rsn.ace.hibernate.core.mappings.one2oneBi;
 
-import com.sapient.rsn.ace.hibernate.core.models.Address;
-import com.sapient.rsn.ace.hibernate.core.models.Student;
 import com.sapient.rsn.ace.hibernate.core.utils.HibernateUtil;
-import com.sun.deploy.ui.AboutDialog;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -13,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Ravdeep Singh on 02-03-2017.
  */
-public class One2OneMain1 {
+public class One2OneMainBi {
     public static void main(String[] args) {
         Session session = HibernateUtil.getConcreteSessionFactory().openSession();
         Transaction transaction = null;
@@ -30,9 +27,8 @@ public class One2OneMain1 {
             session.save(student1);
             session.save(student2);
             transaction.commit();
-
             try {
-                Thread.sleep(TimeUnit.MINUTES.toMillis(1));
+                Thread.sleep(TimeUnit.SECONDS.toMillis(10));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

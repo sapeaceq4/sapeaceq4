@@ -1,4 +1,4 @@
-package com.sapient.rsn.ace.hibernate.core.models;
+package com.sapient.rsn.ace.hibernate.core.mappings.one2one;
 
 import javax.persistence.*;
 

@@ -1,4 +1,4 @@
-package com.sapient.rsn.ace.hibernate.core.models;
+package com.sapient.rsn.ace.hibernate.core.mappings.one2oneBi;
 
 import javax.persistence.*;
 
@@ -7,7 +7,7 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "H_TBL_ADDRESS")
+@Table(name = "H_TBL_ADDRESS_121BI")
 public class Address {
 
     private long addressId;
@@ -15,6 +15,19 @@ public class Address {
     private String city;
     private String state;
     private String zipcode;
+
+    private Student student;
+
+
+    @OneToOne()
+    @JoinColumn(name = "STUDENT_ID")
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
 
     public Address() {
     }
