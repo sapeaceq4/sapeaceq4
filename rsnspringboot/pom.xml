@@ -29,14 +29,19 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-        <!-- <dependency>
-             <groupId>com.oracle</groupId>
-             <artifactId>ojdbc14</artifactId>
-             <scope>system</scope>
-             <systemPath>C:/jar/ojdbc14.jar</systemPath>
-         </dependency>
 
- -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+         <!--<dependency>-->
+             <!--<groupId>com.oracle</groupId>-->
+             <!--&lt;!&ndash;<artifactId>ojdbc14</artifactId>&ndash;&gt;-->
+             <!--<scope>system</scope>-->
+             <!--&lt;!&ndash;<systemPath>lib/ojdbc14.jar</systemPath>&ndash;&gt;-->
+         <!--</dependency>-->
+
     </dependencies>
 
      <build>

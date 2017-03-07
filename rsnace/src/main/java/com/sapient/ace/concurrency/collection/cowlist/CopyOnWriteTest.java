@@ -10,11 +10,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.RunnableFuture;
+import java.util.concurrent.TimeUnit;
 
 public class CopyOnWriteTest {
 
-    private static void f( List l ) {
-        l.add( 2 );
+    private static void f(List l) {
+        l.add(2);
     }
 
     /**
@@ -22,19 +23,25 @@ public class CopyOnWriteTest {
      */
     public static void main(String[] args) {
         List copyOnWriteList = new CopyOnWriteArrayList();
-        List simpleList = new ArrayList();
-        copyOnWriteList.add( 1 );
-        simpleList.add( 1 );
+        copyOnWriteList.add(1);
+        System.out.println(copyOnWriteList);
         new Thread(() -> {
+            System.out.println(copyOnWriteList);
             copyOnWriteList.add(5);
+            try {
+                Thread.sleep(TimeUnit.SECONDS.toMillis(10));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(copyOnWriteList);
         }).start();
         Iterator copyOnWriteIterator1 = copyOnWriteList.iterator();
-        Iterator simpleListIterator1 = simpleList.iterator();
-        f( copyOnWriteList );
+        f(copyOnWriteList);
         Iterator copyOnWriteIterator2 = copyOnWriteList.iterator();
-        Iterator simpleListIterator2 = simpleList.iterator();
         // debug point on the output line just below
 //        copyOnWriteIterator1.remove();
+
+//        copyOnWriteIterator2.remove();
         System.out.println(copyOnWriteList);
 
 

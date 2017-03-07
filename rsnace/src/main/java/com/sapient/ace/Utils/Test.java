@@ -13,13 +13,6 @@ import java.util.concurrent.locks.ReentrantLock;
  * Created by Ravdeep Singh on 2/15/2017.
  */
 public class Test {
-<<<<<<< Updated upstream
-    private static Lock lock = new ReentrantLock();
-    private static int i;
-
-    public static void main(String[] args) throws InterruptedException {
-      /*  long start = System.nanoTime();
-=======
     public Test() {
         try {
             Thread.sleep(5000);
@@ -28,27 +21,30 @@ public class Test {
         }
     }
 
+    private static Lock lock = new ReentrantLock();
+    private static int i;
+
     public static void main(String[] args) throws InterruptedException {
+     /*   long start = System.nanoTime();
+
         Test XOB = new Test();
 
         if (XOB == null)
             System.out.println(true);
         System.out.println(XOB);
-        long start = System.nanoTime();
->>>>>>> Stashed changes
         Thread.currentThread().sleep(TimeUnit.SECONDS.toMillis(1));
 
         long end = System.nanoTime();
-            Thread test = new Thread();
+        Thread test = new Thread();
         System.out.printf("elapsed " + TimeUnit.NANOSECONDS.toSeconds(2002947248L));
-        testlock();*/
-/*
+        testlock();
         testIntern();
         testTrreMap();
-*/
 
-        double d = round(12342.123456789,5);
+        double d = round(12342.123456789, 5);
         System.out.println(d);
+*/
+        testIntern();
 
     }
 
@@ -59,8 +55,8 @@ public class Test {
     }
 
     private static void testTrreMap() {
-        Map<Employee,String> map = new TreeMap();
-        map.put(null,"string");
+        Map<Employee, String> map = new TreeMap();
+        map.put(null, "string");
     }
 
     private static void testIntern() {
@@ -73,20 +69,20 @@ public class Test {
         String s4 = new String("Rakesh");
         String s5 = new String("Rakesh").intern();
 
-        if ( s1 == s2 ){
+        if (s1 == s2) {
             System.out.println("s1 and s2 are same");  // 1.
         }
 
-        if ( s1 == s3 ){
-            System.out.println("s1 and s3 are same" );  // 2.
+        if (s1 == s3) {
+            System.out.println("s1 and s3 are same");  // 2.
         }
 
-        if ( s1 == s4 ){
-            System.out.println("s1 and s4 are same" );  // 3.
+        if (s1 == s4) {
+            System.out.println("s1 and s4 are same");  // 3.
         }
 
-        if ( s1 == s5 ){
-            System.out.println("s1 and s5 are same" );  // 4.
+        if (s1 == s5) {
+            System.out.println("s1 and s5 are same");  // 4.
         }
     }
 
