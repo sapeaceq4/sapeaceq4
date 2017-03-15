@@ -1,0 +1,8 @@
+#####
+## directories
+#####
+classes/
+/docs/
+/lib/
+/db/
+/logs/
