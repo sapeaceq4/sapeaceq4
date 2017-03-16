@@ -2,6 +2,7 @@ package com.sapient.ace.Utils;
 
 import com.sapient.ace.spring.model.Employee;
 
+import java.io.*;
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.TreeMap;
@@ -24,7 +25,7 @@ public class Test {
     private static Lock lock = new ReentrantLock();
     private static int i;
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, IOException {
      /*   long start = System.nanoTime();
 
         Test XOB = new Test();
@@ -44,8 +45,72 @@ public class Test {
         double d = round(12342.123456789, 5);
         System.out.println(d);
 */
-        testIntern();
+//        testIntern();
+//        while (true);
 
+//        System.out.println(tableSizeFor(1 <<16));
+//        System.out.println(1<< 17);
+
+//        A a = new A();
+
+        InputStream is = null;
+        InputStreamReader isr = null;
+        BufferedReader br = null;
+
+        try {
+
+            // open input stream test.txt for reading purpose.
+            is = new FileInputStream("C:\\workbench\\sape\\rsnace\\src\\main\\resources\\test.txt.txt");
+
+            // create new input stream reader
+            isr = new InputStreamReader(is);
+
+            // create new buffered reader
+            br = new BufferedReader(isr);
+
+            // reads and prints BufferedReader
+            System.out.println((char)br.read());
+            System.out.println((char)br.read());
+
+            // mark invoked at this position
+            br.mark(26);
+            System.out.println("mark() invoked");
+
+            System.out.println((char)br.read());
+            br.mark(26);
+            System.out.println((char)br.read());
+
+            // reset() repositioned the stream to the mark
+            br.reset();
+            System.out.println("reset() invoked");
+            System.out.println((char)br.read());
+            System.out.println((char)br.read());
+
+        } catch (Exception e) {
+
+            // exception occurred.
+            e.printStackTrace();
+        } finally {
+
+            // releases any system resources associated with the stream
+            if(is!=null)
+                is.close();
+            if(isr!=null)
+                isr.close();
+            if(br!=null)
+                br.close();
+        }
+    }
+
+    static final int MAXIMUM_CAPACITY = 1 << 30;
+    static final int tableSizeFor(int cap) {
+        int n = cap - 1;
+        n |= n >>> 1;
+        n |= n >>> 2;
+        n |= n >>> 4;
+        n |= n >>> 8;
+        n |= n >>> 16;
+        return (n < 0) ? 1 : (n >= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
     }
 
     private static double round(double d, int decimalPlace) {
