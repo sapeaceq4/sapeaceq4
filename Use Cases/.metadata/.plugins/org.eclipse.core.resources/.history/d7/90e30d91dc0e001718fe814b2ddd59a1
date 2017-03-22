@@ -1,0 +1,19 @@
+package asd.koij;
+
+public class Cover {
+
+	private String CoverHeading;
+
+	public String getCoverHeading() {
+		return CoverHeading;
+	}
+
+	public void setCoverHeading(String coverHeading) {
+		CoverHeading = coverHeading;
+	}
+
+	@Override
+	public String toString() {
+		return "Cover [CoverHeading=" + CoverHeading + "]";
+	}
+}

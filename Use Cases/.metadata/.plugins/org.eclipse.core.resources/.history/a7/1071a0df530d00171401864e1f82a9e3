@@ -1,0 +1,13 @@
+package utilities;
+
+public class NumberUtility {
+
+	public static boolean isPrime(Integer num) {
+		
+		
+		
+		
+		return false;
+	}
+
+}

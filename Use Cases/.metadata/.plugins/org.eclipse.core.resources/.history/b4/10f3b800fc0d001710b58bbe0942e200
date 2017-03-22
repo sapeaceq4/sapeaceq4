@@ -1,0 +1,74 @@
+package Classes;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class LinkedBlockingQueue {
+
+	private final List linkList = new LinkedList<Integer>();
+
+	private final Lock takeLock = new ReentrantLock();
+
+	private final Condition listEmpty = takeLock.newCondition();
+
+	private final Lock putLock = new ReentrantLock();
+
+	private final Condition listFull = putLock.newCondition();
+
+	private final int maxCap;
+
+	public LinkedBlockingQueue(int size) {
+		maxCap = size;
+	}
+
+	private void signalNotEmpty() {
+		takeLock.lock();
+		try {
+			listEmpty.signal();
+		} finally {
+			takeLock.unlock();
+		}
+	}
+
+	private void signalNotFull() {
+		putLock.lock();
+		try {
+			notFull.signal();
+		} finally {
+			putLock.unlock();
+		}
+	}
+
+	public void put(Integer e) throws InterruptedException {
+		if (e == null)
+			throw new NullPointerException();
+		// Note: convention in all put/take/etc is to preset local var
+		// holding count negative to indicate failure unless set.
+
+		putLock.lockInterruptibly();
+		try {
+			/*
+			 * Note that count is used in wait guard even though it is not
+			 * protected by lock. This works because count can only decrease at
+			 * this point (all other puts are shut out by lock), and we (or some
+			 * other waiting put) are signalled if it ever changes from
+			 * capacity. Similarly for all other uses of count in other wait
+			 * guards.
+			 */
+			while (linkList.size() >= maxCap) {
+				listFull.await();
+			}
+			linklist.a
+			c = count.getAndIncrement();
+			if (c + 1 < capacity)
+				notFull.signal();
+		} finally {
+			putLock.unlock();
+		}
+		if (c == 0)
+			signalNotEmpty();
+	}
+}

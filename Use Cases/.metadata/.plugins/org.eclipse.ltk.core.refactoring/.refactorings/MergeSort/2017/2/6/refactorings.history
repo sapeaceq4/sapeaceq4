@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;TestMergeSort.java&apos; to &apos;KthLargest/src/App&apos;&#x0D;&#x0A;- Original project: &apos;MergeSort&apos;&#x0D;&#x0A;- Destination element: &apos;KthLargest/src/App&apos;&#x0D;&#x0A;- Original element: &apos;App.TestMergeSort.java&apos;" description="Copy compilation unit" destination="=KthLargest/src&lt;App" element1="/src&lt;App{TestMergeSort.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1486452886296" units="1" version="1.0"/>
+</session>

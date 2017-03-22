@@ -1,0 +1,12 @@
+
+public class StaticTest {
+	
+	public static int s1 = ;
+    public static int s2 = s1;
+						
+    static int val()
+    {
+    	return 6;
+    }
+
+}

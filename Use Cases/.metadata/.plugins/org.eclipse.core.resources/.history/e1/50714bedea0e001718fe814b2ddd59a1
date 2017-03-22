@@ -1,0 +1,60 @@
+package asd.koij;
+
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanPostProcessor;
+
+public class Book implements BeanPostProcessor  {
+
+	private String name;
+	private String author;
+	private Cover cover;
+
+	public Book() {
+
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	@Override
+	public String toString() {
+		return "Book [name=" + name + ", author=" + author + ", cover=" + cover
+				+ "]";
+	}
+
+	public Cover getCover() {
+		return cover;
+	}
+
+	@Autowired
+	public void setCover(Cover cover) {
+		this.cover = cover;
+	}
+
+	public Object postProcessBeforeInitialization(Object bean, String beanName)
+			throws BeansException {
+		
+		return null;
+	}
+
+	public Object postProcessAfterInitialization(Object bean, String beanName)
+			throws BeansException {
+		
+		return null;
+	}
+
+}

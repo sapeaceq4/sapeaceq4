@@ -1,0 +1,13 @@
+public class StaticTest {
+
+	public static int s1 =1;
+	public static int s2 = s1;
+
+	static int val() {
+		
+	}
+
+	public static void main(String[] args) {
+		System.out.println(s2);
+	}
+}

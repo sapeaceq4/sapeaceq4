@@ -1,0 +1,22 @@
+package asd.koij;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+/**
+ * Hello world!
+ *
+ */
+public class App {
+
+	App() {
+
+	}
+
+	public static void main(String[] args) {
+		System.out.println("Hello World!");
+
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("Beans.xml");
+		System.out.println(ctx.getBean("book"));
+	}
+}

@@ -1,0 +1,19 @@
+package utilities;
+
+public class NumberUtility {
+
+	public static boolean isPrime(Integer number) {
+		
+		int count=0;
+		int num = number;
+		
+		while(num >= 2)
+		{
+			
+		}
+		
+
+		return false;
+	}
+
+}

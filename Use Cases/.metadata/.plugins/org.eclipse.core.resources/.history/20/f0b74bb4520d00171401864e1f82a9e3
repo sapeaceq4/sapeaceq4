@@ -1,0 +1,9 @@
+package utilities;
+
+public class NumberUtility {
+
+	public boolean isPrime(Integer num) {
+		return false;
+	}
+
+}

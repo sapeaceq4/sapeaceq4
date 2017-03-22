@@ -1,0 +1,12 @@
+package PrimeNumberTask;
+
+public class PrimeNumberTask implements Runnable {
+	
+	private Set<Integer>
+
+	@Override
+	public void run() {
+
+	}
+
+}

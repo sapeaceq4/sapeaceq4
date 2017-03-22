@@ -1,0 +1,22 @@
+package PrimeNumberTask;
+
+import java.util.Set;
+
+import utilities.NumberUtility;
+
+public class PrimeNumberTask implements Runnable {
+
+	private Set set;
+	private Integer num;
+
+	public PrimeNumberTask(Set set, Integer number) {
+		this.set = set;
+		num = number;
+	}
+
+	@Override
+	public void run() {
+		if(NumberUtility.isPrime(number));
+	}
+
+}

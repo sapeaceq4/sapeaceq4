@@ -1,0 +1,14 @@
+public class StaticTest {
+
+	public static int s1 = val();
+	public static int s2 = s1;
+
+	static int val() {
+		return 6;
+	}
+
+	public static void main(String[] args) {
+
+		System.out.println(s2);
+	}
+}

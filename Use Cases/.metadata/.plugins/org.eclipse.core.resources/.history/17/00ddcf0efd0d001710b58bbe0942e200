@@ -1,0 +1,10 @@
+package Classes;
+
+public class TestBlockingQueue {
+	
+	
+	public static void main(String[] args) {
+		
+	}
+
+}

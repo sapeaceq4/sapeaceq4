@@ -67,4 +67,10 @@ public class Address {
 		this.pin = pin;
 	}
 
+	@Override
+	public String toString() {
+		return "Address [id=" + id + ", line1=" + line1 + ", line2=" + line2
+				+ ", city=" + city + ", pin=" + pin + "]";
+	}
+
 }

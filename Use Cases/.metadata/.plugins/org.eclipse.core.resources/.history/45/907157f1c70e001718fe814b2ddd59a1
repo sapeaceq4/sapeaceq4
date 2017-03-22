@@ -1,0 +1,52 @@
+package Hibernate.Hib;
+
+import java.util.List;
+
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+/**
+ * Hello world!
+ *
+ */
+public class App {
+	public static void main(String[] args) {
+
+		System.out.println("Hello World!");
+
+		Configuration cfg = new Configuration().addAnnotatedClass(Book.class)
+				.addAnnotatedClass(Cover.class).configure();
+
+		SessionFactory sessions = cfg.buildSessionFactory();
+
+		Session session = sessions.openSession(); // open a new Session
+
+		try {
+			Transaction tx = session.beginTransaction();
+
+			Book b = new Book();
+			b.setTitle("akash");
+			session.save(b);
+
+			Cover c = new Cover();
+
+			c.setBook(b);
+			c.setImageName("alok");
+			session.save(c);
+			session.flush();
+			tx.commit();
+
+			String sql = "select isbnumber from book";
+			SQLQuery nativeSql = session.createSQLQuery(sql);
+			// nativeSql.addEntity(Book.class);
+			List li = nativeSql.list();
+			// System.out.println(((Object[]) li.get(1))[0]);
+		} finally {
+			session.close();
+			sessions.close();
+		}
+	}
+}

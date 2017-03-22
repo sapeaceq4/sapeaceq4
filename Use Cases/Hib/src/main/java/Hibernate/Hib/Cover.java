@@ -26,7 +26,7 @@ public class Cover {
 	private String imageName;
 
 	@OneToOne
-	//(mappedBy = "cover")
+	// (mappedBy = "cover")
 	private Book book;
 
 	public String getImageName() {

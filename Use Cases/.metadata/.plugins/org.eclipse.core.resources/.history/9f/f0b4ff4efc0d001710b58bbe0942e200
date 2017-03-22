@@ -1,0 +1,67 @@
+package Classes;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class LinkedBlockingQueue {
+
+	private final List linkList = new LinkedList<Integer>();
+
+	private final Lock takeLock = new ReentrantLock();
+
+	private final Condition listEmpty = takeLock.newCondition();
+
+	private final Lock putLock = new ReentrantLock();
+
+	private final Condition listFull = putLock.newCondition();
+
+	private final int maxCap;
+
+	public LinkedBlockingQueue(int size) {
+		maxCap = size;
+	}
+
+	private void signalNotEmpty() {
+		takeLock.lock();
+		try {
+			listEmpty.signal();
+		} finally {
+			takeLock.unlock();
+		}
+	}
+
+	private void signalNotFull() {
+		putLock.lock();
+		try {
+			listFull.signal();
+		} finally {
+			putLock.unlock();
+		}
+	}
+
+	public void put(Integer e) throws InterruptedException {
+		if (e == null)
+			throw new NullPointerException();
+		
+		putLock.lockInterruptibly();
+		try {
+			
+			while (linkList.size() >= maxCap) {
+				listFull.await();
+			}
+			linkList.add(e);
+			
+			if()
+			{
+				
+			}
+		} finally {
+			putLock.unlock();
+			signalNotEmpty();
+		}
+			
+	}
+}

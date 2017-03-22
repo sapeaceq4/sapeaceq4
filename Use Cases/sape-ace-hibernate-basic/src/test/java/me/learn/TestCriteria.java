@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import me.learn.domain.PROFICIENCY;
 import me.learn.domain.TITLE;
 import me.learn.domain.TRAINER_TYPE;
@@ -18,8 +17,8 @@ import me.learn.domain.criteria.Participant;
 import me.learn.domain.criteria.Skill;
 import me.learn.domain.criteria.Trainer;
 import me.learn.domain.tablePerHierarchy.Address;
-
 import org.hibernate.Criteria;
+import org.hibernate.LockMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -107,7 +106,6 @@ public class TestCriteria {
 	public void testDetachedCriteria() {
 		DetachedCriteria dc = DetachedCriteria.forClass(Trainer.class);
 		dc.add(Restrictions.eq("name", "Trainer1"));
-
 		Session session = sessionFactory.openSession();
 		Criteria criteria = dc.getExecutableCriteria(session);
 		@SuppressWarnings("unchecked")
@@ -220,7 +218,6 @@ public class TestCriteria {
 			trnr.setDateOfJoining(sdf.parse(doj));
 			trnr.setDateOfLeaving(sdf.parse("31-12-2099"));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		trnr.setEmail(email);
@@ -237,22 +234,28 @@ public class TestCriteria {
 	@Test
 	// @Ignore
 	public void testAddressSaves() {
+		System.out.println("assress----");
 		Address addr = new Address();
 		addr.setCity("Kanpur");
 		addr.setLine1("civil lines 1");
 		addr.setLine2("civil lines 2");
 		addr.setPin("227412");
 		Session session = sessionFactory.openSession();
+		// session.lock(addr,LockMode.PESSIMISTIC_WRITE);
 		// session.save(addr);
+		// session.beginTransaction();
 		session.persist(addr);
 		session.flush();
 		session.close();
+		System.out.println("akash");
 	}
 
 	@Test
 	public void testAddressLoad() {
 		Session session = sessionFactory.openSession();
 		Address addr = session.load(Address.class, 11L);
+		System.out.println(session.createQuery("from Address").list());
+		session.lock(addr, LockMode.UPGRADE);
 		addr.getCity();
 		session.close();
 	}

@@ -1,0 +1,20 @@
+package Test;
+
+import java.util.HashSet;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class Test {
+
+	public static void main(String[] args) {
+
+		ExecutorService service = Executors.newFixedThreadPool(20);
+		int n = 0;
+		Set<Integer> set = new HashSet<Integer>();
+
+		while (n <= num) {
+
+		}
+
+	}
+}

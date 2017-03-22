@@ -1,0 +1,8 @@
+package asd.koij;
+
+public class Cover {
+
+	private String coverHeading;
+
+
+}

@@ -1,0 +1,13 @@
+package asd.koij;
+
+public class Book {
+
+	private String name;
+	private String author;
+
+	public Book()
+	{
+		
+	}
+	
+}

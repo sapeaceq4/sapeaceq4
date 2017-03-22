@@ -10,6 +10,7 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class Book {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long isbnNumber;
@@ -42,6 +43,12 @@ public class Book {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	@Override
+	public String toString() {
+		return "Book [isbnNumber=" + isbnNumber + ", title=" + title
+				+ ", cover=" + cover + "]";
 	}
 
 }

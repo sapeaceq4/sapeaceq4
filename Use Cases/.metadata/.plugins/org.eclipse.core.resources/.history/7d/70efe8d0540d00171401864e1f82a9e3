@@ -1,0 +1,15 @@
+package PrimeNumberTask;
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class PrimeNumberTask implements Runnable {
+	
+	private Set set = new HashSet<Integer>();
+
+	@Override
+	public void run() {
+
+	}
+
+}
