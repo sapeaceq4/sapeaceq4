@@ -8,8 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
 
 /**
  * Hello world!
@@ -20,7 +18,9 @@ public class App {
 
 		System.out.println("Hello World!");
 		Configuration cfg = new Configuration().addAnnotatedClass(Book.class)
-				.addAnnotatedClass(Cover.class).configure();
+				.addAnnotatedClass(Hibernate.Hib.UserComment.class)
+				.addAnnotatedClass(Post.class).addAnnotatedClass(Cover.class)
+				.configure();
 		SessionFactory sessions = cfg.buildSessionFactory();
 		Session session = sessions.openSession(); // open a new Session
 
@@ -36,20 +36,30 @@ public class App {
 			c.setBook(b);
 			c.setImageName("alok");
 			session.save(c);
+
+			Post post = new Post();
+			post.setName("Hibernate Master Class");
+
+			UserComment comment1 = new UserComment();
+			comment1.setReview("Good post!");
+			UserComment comment2 = new UserComment();
+			comment2.setReview("Nice post!");
+			post.addUserComment(comment1);
+			post.addUserComment(comment2);
+			session.persist(post);
 			session.flush();
 			tx.commit();
 
 			String sql = "select * from book";
 			SQLQuery nativeSql = session.createSQLQuery(sql);
 
-			Criteria cri = session.createCriteria(Book.class);
-			Criterion criterionName = Restrictions.eq("isbnNumber", 1L);
-			cri.add(criterionName);
-			// nativeSql.addEntity(Book.class);
+			Criteria cri = session.createCriteria(Cover.class);
+			nativeSql.addEntity(Book.class);
 			List li = nativeSql.list();
 			System.out.println(li);
-
+			System.out.println("oye" + session.get(Book.class, 1L));
 			System.out.println(cri.list().get(0));
+
 		} finally {
 			session.close();
 			sessions.close();

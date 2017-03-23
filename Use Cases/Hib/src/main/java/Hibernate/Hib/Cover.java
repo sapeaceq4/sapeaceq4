@@ -6,21 +6,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 @Entity
+@GenericGenerator(name = "generator", strategy = "foreign", parameters = @Parameter(name = "property", value = "book"))
 public class Cover {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private long id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long imageId;
 
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
+	@Column
+	@GeneratedValue(generator = "generator")
+	private long bookIsbnNumber;
 
 	@Column
 	private String imageName;
@@ -43,6 +42,28 @@ public class Cover {
 
 	public void setBook(Book book) {
 		this.book = book;
+	}
+
+	public long getBookIsbnNumber() {
+		return bookIsbnNumber;
+	}
+
+	public void setBookIsbnNumber(long bookIsbnNumber) {
+		this.bookIsbnNumber = bookIsbnNumber;
+	}
+
+	public long getImageId() {
+		return imageId;
+	}
+
+	public void setImageId(long imageId) {
+		this.imageId = imageId;
+	}
+
+	@Override
+	public String toString() {
+		return "Cover [bookIsbnNumber=" + bookIsbnNumber + ", imageName="
+				+ imageName + "]";
 	}
 
 }

@@ -3,6 +3,7 @@ package Hibernate.Hib;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,7 +19,8 @@ public class Book {
 	@Column
 	private String title;
 
-	@OneToOne(cascade = { CascadeType.ALL }, mappedBy = "book")
+	@OneToOne(cascade = { CascadeType.ALL }, mappedBy = "book", fetch = FetchType.EAGER)
+	//@Fetch(value = org.hibernate.annotations.FetchMode.SELECT)
 	private Cover cover;
 
 	public Cover getCover() {
