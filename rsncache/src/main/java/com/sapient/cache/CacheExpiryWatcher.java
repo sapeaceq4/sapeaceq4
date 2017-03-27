@@ -1,12 +1,14 @@
 package com.sapient.cache;
 
+import com.sapient.cache.evictors.EvictionStrategy;
+
 /**
  * Created by Ravdeep Singh
  */
 
 public class CacheExpiryWatcher implements Runnable {
-    private EvictionStrategy eviction;
-    private Cache targetCache;
+    private final EvictionStrategy eviction;
+    private final Cache targetCache;
 
     public CacheExpiryWatcher(EvictionStrategy eviction, Cache targetCache) {
         this.eviction = eviction;

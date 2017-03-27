@@ -3,6 +3,6 @@ package com.sapient.cache;
 /**
  * Created by Ravdeep Singh
  */
-public interface Cacheable {
+interface Cacheable {
      boolean isExpired();
 }

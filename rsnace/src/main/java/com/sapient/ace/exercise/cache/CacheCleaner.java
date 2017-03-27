@@ -1,6 +1,4 @@
-package com.sapient.ace.exercise13022017.cache;
-
-import java.util.Collection;
+package com.sapient.ace.exercise.cache;
 
 /**
  * Created by Ravdeep Singh on 2/14/2017.
@@ -16,9 +14,6 @@ public class CacheCleaner implements Runnable {
 
     @Override
     public void run() {
-
-
-
 
     }
 }

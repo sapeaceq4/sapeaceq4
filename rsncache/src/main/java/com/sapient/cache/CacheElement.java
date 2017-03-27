@@ -2,7 +2,6 @@ package com.sapient.cache;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Observable;
 
 /**
  * Created by Ravdeep Singh
@@ -12,11 +11,8 @@ public class CacheElement<T> implements Cacheable{
 
     private volatile  Date dateOfExpiry;
     private final T value;
-    private volatile int timeToLive;
+    private final int timeToLive;
 
-    public CacheElement(T value) {
-        this.value = value;
-    }
 
     //timeTolive in seconds
     public CacheElement(T value, int timeToLive) {
@@ -26,14 +22,9 @@ public class CacheElement<T> implements Cacheable{
             dateOfExpiry = new java.util.Date();
             Calendar cal = java.util.Calendar.getInstance();
             cal.setTime(dateOfExpiry);
-            cal.add(cal.SECOND, timeToLive);
+            cal.add(Calendar.SECOND, timeToLive);
             dateOfExpiry = cal.getTime();
         }
-    }
-
-    public Date getDateOfExpiry() {
-        return dateOfExpiry;
-
     }
 
     @Override
@@ -49,14 +40,10 @@ public class CacheElement<T> implements Cacheable{
         return timeToLive;
     }
 
-    public void setDateOfExpiry(Date dateOfExpiry) {
+    public void setDateOfExpiry(final Date dateOfExpiry) {
         this.dateOfExpiry = dateOfExpiry;
     }
     public boolean isExpired() {
-        if (dateOfExpiry != null && dateOfExpiry.before(new java.util.Date())) {
-            return true;
-        } else {
-            return false;
-        }
+        return dateOfExpiry != null && dateOfExpiry.before(new Date());
     }
 }

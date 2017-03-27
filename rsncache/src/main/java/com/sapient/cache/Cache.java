@@ -9,18 +9,17 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by Ravdeep Singh
  */
 public class Cache<K, V> extends Observable {
-    private int capacity;
-    private K key;
-
-    private ConcurrentHashMap<K, CacheElement<V>> backingMap;
+    private final int capacity;
+    private final ConcurrentHashMap<K, CacheElement<V>> backingMap;
 
     //1024 is load factor
     public Cache(int initCapacity) {
         capacity = initCapacity;
-        backingMap = new ConcurrentHashMap<K, CacheElement<V>>(initCapacity + CacheConstants.CACHE_LOAD_FACTOR);
+        backingMap = new ConcurrentHashMap<>(initCapacity + CacheConstants.CACHE_LOAD_FACTOR);
     }
 
     public void put(K key, CacheElement<V> value) {
+
         backingMap.put(key, value);
     }
 
@@ -30,16 +29,17 @@ public class Cache<K, V> extends Observable {
         if (value == null)
             return null;
         else if (value.isExpired()) {
-            backingMap.remove(key);
-            notifyObservers(value);
-            System.out.println("expired in get");
+                backingMap.remove(key);
+                setChanged();
+                notifyObservers(value);
+                System.out.println("expired in get");
         } else if (value.getTimeToLive() != 0) {
-            Date expiryTime = new Date();
-            Calendar cal = java.util.Calendar.getInstance();
-            cal.setTime(expiryTime);
-            cal.add(cal.SECOND, value.getTimeToLive());
-            value.setDateOfExpiry(cal.getTime());
-            System.out.println("extended time");
+                Date expiryTime = new Date();
+                Calendar cal = java.util.Calendar.getInstance();
+                cal.setTime(expiryTime);
+                cal.add(Calendar.SECOND, value.getTimeToLive());
+                value.setDateOfExpiry(cal.getTime());
+                System.out.println("extended time");
         }
         return value;
     }
@@ -48,16 +48,20 @@ public class Cache<K, V> extends Observable {
         return backingMap.remove(key);
     }
 
+    public void clear() {
+         backingMap.clear();
+    }
     public void removeExpired() {
-        System.out.println("before expiring"+backingMap);
+        System.out.println("before expiring" + backingMap);
         for (Map.Entry<K, CacheElement<V>> entry : backingMap.entrySet()) {
             if (entry.getValue().isExpired()) {
                 System.out.println("cache removing expire");
+                setChanged();
                 notifyObservers(entry.getValue());
                 backingMap.remove(entry.getKey());
             }
         }
-        System.out.println("after expiring"+backingMap);
+        System.out.println("after expiring" + backingMap);
     }
 
     public int getCapacity() {
@@ -71,6 +75,11 @@ public class Cache<K, V> extends Observable {
     @Override
     public synchronized void addObserver(Observer o) {
         super.addObserver(o);
+    }
+
+    @Override
+    public synchronized int countObservers() {
+        return super.countObservers();
     }
 
     @Override

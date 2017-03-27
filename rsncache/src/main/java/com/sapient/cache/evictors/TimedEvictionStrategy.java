@@ -1,4 +1,6 @@
-package com.sapient.cache;
+package com.sapient.cache.evictors;
+
+import com.sapient.cache.Cache;
 
 /**
  * Created by Ravdeep Singh
