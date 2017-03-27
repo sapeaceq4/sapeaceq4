@@ -1,5 +1,6 @@
 import com.sapient.cache.Cache;
 import com.sapient.cache.CacheElement;
+import com.sapient.cache.exception.CacheException;
 import com.sapient.cache.manager.CacheManager;
 import com.sapient.cache.notification.CacheNotificationListener;
 import com.sapient.cache.notification.Notification;
@@ -7,11 +8,16 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockingDetails;
+import org.mockito.Mockito;
 
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * Created by Ravdeep Singh
@@ -55,10 +61,35 @@ public class CacheTest {
 //        verify(cacheNotificationListener, times(1)).update(timedCache, valueOne);
     }
 
+    @Test
+    public void timedCacheNotificationOnExpiryShouldPass() {
+        CacheNotificationListener notificationListener = Mockito.mock(CacheNotificationListener.class);
+        Cache cache = CacheManager.getCache(10, "time", notificationListener);
+        CacheElement<String> value = new CacheElement<>("value-" + 0, 5);
+        cache.put(1, value);
+        threadSleep(20);
+        assertNull(cache.get(1));
+        verify(notificationListener, times(1)).update(cache, value);
+        cache.clear();
+    }
+
+
+    @Test(expected = CacheException.class)
+    public void cacheWithNullNotificationListenerShouldThrowException() {
+//        CacheNotificationListener notificationListener = Mockito.mock(CacheNotificationListener.class);
+        CacheNotificationListener notificationListener = null;
+        Cache cache = CacheManager.getCache(10, "time", notificationListener);
+        CacheElement<String> value = new CacheElement<>("value-" + 0, 5);
+        cache.put(1, value);
+        threadSleep(20);
+        assertNull(cache.get(1));
+        verify(notificationListener, times(1)).update(cache, value);
+        cache.clear();
+    }
 
     @Test
     public void sizeCacheOnExpiryShouldPass() {
-        insertValues();
+        insertValues(5, sizeCache);
         threadSleep(30);
         CacheElement<String> value = new CacheElement<>("value two", 600);
         sizeCache.put(15, value);
@@ -66,10 +97,10 @@ public class CacheTest {
         assertNotNull(sizeCache.get(15));
     }
 
-    private void insertValues() {
+    private void insertValues(int number, Cache cache) {
 
-        for (int i = 0; i < 5; i++) {
-            sizeCache.put(i, new CacheElement<>("value-" + i, i + 10));
+        for (int i = 0; i < number; i++) {
+            cache.put(i, new CacheElement<>("value-" + i, i + 10));
         }
     }
 

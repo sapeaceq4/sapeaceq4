@@ -14,7 +14,7 @@ public class CacheElement<T> implements Cacheable{
     private final int timeToLive;
 
 
-    //timeTolive in seconds
+    //timeTolive in seconds, 0 for for disabling expiration
     public CacheElement(T value, int timeToLive) {
         this.value = value;
         this.timeToLive = timeToLive;

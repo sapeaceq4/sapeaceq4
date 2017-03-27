@@ -16,7 +16,6 @@ public class CacheExpiryWatcher implements Runnable {
     }
 
     public void run() {
-            System.out.println("Executing ExpiryWatcher");
             eviction.evict(targetCache);
     }
 }

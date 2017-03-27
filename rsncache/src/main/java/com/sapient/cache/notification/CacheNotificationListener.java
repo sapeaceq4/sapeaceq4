@@ -11,7 +11,6 @@ import java.util.concurrent.locks.ReentrantLock;
 public class CacheNotificationListener implements Observer {
 
 
-
     private final Notification notification;
     private final Lock lock = new ReentrantLock(true);
 
@@ -23,8 +22,10 @@ public class CacheNotificationListener implements Observer {
     public void update(Observable o, Object arg) {
         lock.lock();
         try {
-
-            System.out.printf(notification.getMessage() + "for " + o + " " + arg);
+            if (notification != null)
+                System.out.printf(notification.getMessage() + " for " + o + " " + arg);
+            else
+                System.out.printf("Notification received for " + o + " " + arg);
         } finally {
             lock.unlock();
         }
