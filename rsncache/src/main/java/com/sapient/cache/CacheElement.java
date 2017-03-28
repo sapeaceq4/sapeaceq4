@@ -13,6 +13,9 @@ public class CacheElement<T> implements Cacheable{
     private final T value;
     private final int timeToLive;
 
+    public CacheElement(T value) {
+        this(value,0);
+    }
 
     //timeTolive in seconds, 0 for for disabling expiration
     public CacheElement(T value, int timeToLive) {

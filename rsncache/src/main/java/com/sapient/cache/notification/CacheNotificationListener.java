@@ -23,9 +23,9 @@ public class CacheNotificationListener implements Observer {
         lock.lock();
         try {
             if (notification != null)
-                System.out.printf(notification.getMessage() + " for " + o + " " + arg);
+                System.out.println(notification.getMessage() + " for " + o + " " + arg);
             else
-                System.out.printf("Notification received for " + o + " " + arg);
+                System.out.println("Notification received for " + o + " " + arg);
         } finally {
             lock.unlock();
         }

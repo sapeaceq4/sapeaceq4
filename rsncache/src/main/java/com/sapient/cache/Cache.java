@@ -20,7 +20,7 @@ public class Cache<K, V> extends Observable {
     }
 
     public void put(K key, CacheElement<V> value) {
-        if(backingMap.size()==capacity){
+        if (backingMap.size() >= capacity) {
             throw new CacheException("Not able to add objects. Cache is full");
         }
         backingMap.put(key, value);
@@ -31,15 +31,15 @@ public class Cache<K, V> extends Observable {
         if (value == null)
             return null;
         else if (value.isExpired()) {
-                backingMap.remove(key);
-                setChanged();
-                notifyObservers(value);
+            backingMap.remove(key);
+            setChanged();
+            notifyObservers(value);
         } else if (value.getTimeToLive() != 0) {
-                Date expiryTime = new Date();
-                Calendar cal = java.util.Calendar.getInstance();
-                cal.setTime(expiryTime);
-                cal.add(Calendar.SECOND, value.getTimeToLive());
-                value.setDateOfExpiry(cal.getTime());
+            Date expiryTime = new Date();
+            Calendar cal = java.util.Calendar.getInstance();
+            cal.setTime(expiryTime);
+            cal.add(Calendar.SECOND, value.getTimeToLive());
+            value.setDateOfExpiry(cal.getTime());
         }
         return value;
     }
@@ -49,10 +49,10 @@ public class Cache<K, V> extends Observable {
     }
 
     public void clear() {
-         backingMap.clear();
+        backingMap.clear();
     }
+
     public void removeExpired() {
-        System.out.println("before expiring" + backingMap);
         for (Map.Entry<K, CacheElement<V>> entry : backingMap.entrySet()) {
             if (entry.getValue().isExpired()) {
                 setChanged();

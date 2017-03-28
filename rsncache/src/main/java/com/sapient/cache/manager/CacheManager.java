@@ -16,10 +16,12 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Ravdeep Singh
  */
-public class CacheManager {
-    private final static ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+public enum CacheManager {
+    MANAGER;
 
-    public static <K, V> Cache getCache(int capacity, String type, CacheNotificationListener observer) {
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
+    public <K, V> Cache<K,V> getCache(int capacity, String type, CacheNotificationListener observer) {
         Cache<K, V> cache = new Cache<K, V>(capacity);
         EvictionStrategy strategy = new TimedEvictionStrategy();
         if (type.equalsIgnoreCase(CacheConstants.TIMED_CACHE_EVICTION)) {
@@ -35,7 +37,7 @@ public class CacheManager {
         return cache;
     }
 
-    public static void shutdownEvictor() {
+    public void shutdownEvictor() {
         scheduler.shutdown();
     }
 }
