@@ -1,14 +1,18 @@
 package com.sapient.ace.concurrency.executors.poolWithFactory;
 
 import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by rsi164 on 3/22/2017.
  */
 public class MyThreadFactory implements ThreadFactory {
+    private static final AtomicInteger poolNumber = new AtomicInteger(1);
+    public static final String CLASS_NAME = MyThreadFactory.class.getSimpleName();
+    private final ThreadGroup group;
+    private final AtomicInteger threadNumber = new AtomicInteger(1);
     public static final String DELIMITER = "-";
     private String prefix = "rsn";
-    private static int counter = 0;
 
     final Thread.UncaughtExceptionHandler exceptionHandler = new Thread.UncaughtExceptionHandler() {
 
@@ -24,14 +28,25 @@ public class MyThreadFactory implements ThreadFactory {
         return exceptionHandler;
     }
 
+    public MyThreadFactory() {
+        this(CLASS_NAME);
+    }
+
     public MyThreadFactory(String prefix) {
+        this(new ThreadGroup(CLASS_NAME), prefix);
+    }
+
+    public MyThreadFactory(ThreadGroup group, String prefix) {
+        this.group = group;
         this.prefix = prefix;
     }
 
     @Override
-    public Thread newThread(Runnable r) {
+    public Thread newThread(Runnable runnable) {
 
-        final Thread thread =  new Thread(prefix + DELIMITER + counter);
+        final Thread thread = new Thread(runnable, "pool" + DELIMITER + poolNumber.getAndIncrement() + DELIMITER +
+                prefix +
+                DELIMITER + threadNumber.getAndIncrement());
         thread.setUncaughtExceptionHandler(exceptionHandler);
         return thread;
     }

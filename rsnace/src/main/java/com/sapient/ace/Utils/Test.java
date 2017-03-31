@@ -46,6 +46,10 @@ public class Test {
 */
         testIntern();
 
+        System.out.println("name "+ Test.class.getName());
+        System.out.println("Simple name "+ Test.class.getSimpleName());
+        System.out.println("Canonical name "+ Test.class.getCanonicalName());
+        System.out.println("Type name "+ Test.class.getTypeName());
     }
 
     private static double round(double d, int decimalPlace) {
